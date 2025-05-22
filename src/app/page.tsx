@@ -19,8 +19,8 @@ export default function Home() {
     <>
       <Navbar />
       <div className="flex flex-row justify-between items-center">
-        <aside className="w-1/5"></aside>
-        <main className="w-3/5">
+        <aside className="w-full sm:w-1/5"></aside>
+        <main className="w-full sm:w-3/5">
           <Hero />
           {/*<GamesSection />
       <PromotionSection />
@@ -30,7 +30,7 @@ export default function Home() {
       <LoginModal open={showLogin} onOpenChange={setShowLogin} />
       <RegisterModal open={showRegister} onOpenChange={setShowRegister} /> */}
         </main>
-        <aside className="w-1/5"></aside>
+        <aside className="w-full sm:w-1/5"></aside>
       </div>
     </>
   );
