@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
+import Image, { ImageProps } from "next/image";
 
 // Main Avatar container
 const Avatar = React.forwardRef<
@@ -18,17 +18,26 @@ Avatar.displayName = "Avatar";
 // Avatar Image
 const AvatarImage = React.forwardRef<
   HTMLImageElement,
-  React.ImgHTMLAttributes<HTMLImageElement>
->(({ className, ...props }, ref) => (
-  <Image
-    ref={ref}
-    className={cn("h-full w-full object-cover  rounded-md", className)}
-    width={100}
-    height={100}
-    alt="Avatar"
-    {...props}
-  />
-));
+  Omit<ImageProps, "src" | "width" | "height"> & {
+    src: string;
+    width?: number | `${number}`;
+    height?: number | `${number}`;
+  }
+>(({ className, width, height, ...props }, ref) => {
+  const parsedWidth = typeof width === 'string' ? parseInt(width, 10) : width ?? 100;
+  const parsedHeight = typeof height === 'string' ? parseInt(height, 10) : height ?? 100;
+
+  return (
+    <Image
+      ref={ref}
+      className={cn("h-full w-full object-cover rounded-md", className)}
+      width={parsedWidth}
+      height={parsedHeight}
+     
+      {...props}
+    />
+  );
+});
 AvatarImage.displayName = "AvatarImage";
 
 // Fallback initials or placeholder
