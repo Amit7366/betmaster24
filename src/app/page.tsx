@@ -10,6 +10,8 @@ import { GamesSection } from "@/components/home/GamesSection";
 import { PromotionSection } from "@/components/home/PromotionSection";
 import { ServicesSection } from "@/components/home/ServicesSection";
 import { FAQSection } from "@/components/home/FAQSection";
+import LeftSidebar from "@/components/sidebar/leftsidebar";
+import ChatPanel from "@/components/sidebar/ChatPanel";
 
 export default function Home() {
   const [showLogin, setShowLogin] = useState(false);
@@ -18,9 +20,11 @@ export default function Home() {
   return (
     <>
       <Navbar />
-      <div className="flex flex-row justify-between items-center">
-        <aside className="w-full sm:w-1/5"></aside>
-        <main className="w-full sm:w-3/5">
+      <div className="flex flex-col sm:flex-row justify-between bg-background">
+        <aside className="w-full sm:w-[15%] bg-graybg p-2">
+          <LeftSidebar />
+        </aside>
+        <main className="w-full sm:w-[70%]">
           <Hero />
           {/*<GamesSection />
       <PromotionSection />
@@ -30,7 +34,9 @@ export default function Home() {
       <LoginModal open={showLogin} onOpenChange={setShowLogin} />
       <RegisterModal open={showRegister} onOpenChange={setShowRegister} /> */}
         </main>
-        <aside className="w-full sm:w-1/5"></aside>
+        <aside className="w-full sm:w-[15%] p-2">
+          <ChatPanel/>
+        </aside>
       </div>
     </>
   );

@@ -4,7 +4,8 @@
 import { gameData } from "@/constants";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
-
+import { FaUser, FaUsers, FaKey, FaDollarSign } from "react-icons/fa";
+import GameCards from "./GameCards";
 export default function Hero() {
   const [timeLeft, setTimeLeft] = useState(getInitialTimeLeft());
 
@@ -29,6 +30,28 @@ export default function Hero() {
     const seconds = totalSeconds % 60;
     return { hours, minutes, seconds };
   }
+  const features = [
+    {
+      icon: <FaUser className="text-white text-2xl" />,
+      title: "Unlock 3+ memberships",
+      bg: "bg-gradient-to-r from-cyan-600 to-blue-700",
+    },
+    {
+      icon: <FaUsers className="text-white text-2xl" />,
+      title: "Invite friends & earn 100 free spins",
+      bg: "bg-gradient-to-r from-pink-600 to-purple-700",
+    },
+    {
+      icon: <FaKey className="text-white text-2xl" />,
+      title: "Login daily and collect reward points",
+      bg: "bg-gradient-to-r from-green-600 to-green-800",
+    },
+    {
+      icon: <FaDollarSign className="text-white text-2xl" />,
+      title: "Play games and hit the jackpot",
+      bg: "bg-gradient-to-r from-orange-500 to-red-600",
+    },
+  ];
   return (
     <section>
       <div className="w-full bg-[#0d0d0d] py-2 overflow-x-auto whitespace-nowrap hide-scrollbar">
@@ -36,7 +59,7 @@ export default function Hero() {
           {gameData.map((game, index) => (
             <div
               key={index}
-              className="min-w-[90px] bg-black rounded-xl overflow-hidden flex flex-row justify-start items-center gap-2 text-white text-xs py-1 px-2 shadow-md border border-gray-800"
+              className="min-w-[140px] bg-black rounded-xl overflow-hidden flex flex-row justify-start items-center gap-2 text-white text-xs py-1 px-2 shadow-md border border-gray-800"
             >
               <Image
                 src={game.image}
@@ -70,7 +93,7 @@ export default function Hero() {
             {["hours", "minutes", "seconds"].map((label, i) => (
               <div
                 key={label}
-                className="bg-black p-2 rounded-md flex flex-col items-center w-14"
+                className="bg-graycardbg p-2 rounded-md flex flex-col items-center w-14"
               >
                 <span className="text-xl">
                   {String(
@@ -91,15 +114,28 @@ export default function Hero() {
         </div>
 
         {/* Image Section */}
-       
-          <Image
-            src="/hero.jpg" // Replace with actual image path
-            alt="Daily Reward"
-            fill
-            className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
-          />
-      
+
+        <Image
+          src="/hero.jpg" // Replace with actual image path
+          alt="Daily Reward"
+          fill
+          className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
+        />
       </div>
+      <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center px-2 sm:px-0 py-4 ">
+        {features.map((feature, idx) => (
+          <div
+            key={idx}
+            className={`flex items-center gap-3 p-4 rounded-lg ${feature.bg} shadow-md w-full`}
+          >
+            <div className="bg-white/20 p-3 rounded-full">{feature.icon}</div>
+            <p className="text-white text-sm font-medium leading-tight">
+              {feature.title}
+            </p>
+          </div>
+        ))}
+      </div>
+      <GameCards />
     </section>
   );
 }
