@@ -80,7 +80,7 @@ export default function Hero() {
       </div>
       <div className="relative h-[600px] bg-[#0d0d0d] text-white  p-6 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-12 overflow-hidden my-3 rounded-md">
         {/* Text Section */}
-        <div className="flex flex-col gap-4  relative z-20 py-20 px-10">
+        <div className="flex flex-col gap-4  relative z-20 py-20 PX-2 sm:px-10">
           <span className="bg-green-500 text-xs font-semibold text-white w-fit px-2 py-1 rounded">
             DAILY
           </span>

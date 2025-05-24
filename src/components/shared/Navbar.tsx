@@ -48,13 +48,15 @@ export const Navbar = () => {
       </div>
 
       {/* Right Section */}
-      <div className="flex flex-col sm:flex-row items-center gap-4">
-        <button className="text-white text-sm flex items-center gap-1 px-4 py-2 bg-gray-400 bg-opacity-15 rounded-md">
-          <Wallet className="w-4 h-4" /> Login
-        </button>
-        <button className="bg-[#00bfff] text-white px-4 py-2 rounded-md text-sm">
-          💰 Registration
-        </button>
+      <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
+        <div className="flex items-center gap-2">
+          <button className="text-white text-sm flex items-center gap-1 px-4 py-2 bg-gray-400 bg-opacity-15 rounded-md">
+            <Wallet className="w-4 h-4" /> Login
+          </button>
+          <button className="bg-[#00bfff] text-white px-4 py-2 rounded-md text-sm">
+            💰 Registration
+          </button>
+        </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
             <Avatar className="w-8 h-8">
