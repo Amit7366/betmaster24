@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/ui/avatar";
 import { Bell, ChartArea, Menu, Send, Wallet } from "lucide-react";
 
-export const Navbar = () => {
+export const Navbar = ({ toggleSidebar, onOpenSignup }: { toggleSidebar: () => void; onOpenSignup: () => void }) => {
   const [timeLeft, setTimeLeft] = useState(43 * 60 + 7); // 43 minutes and 7 seconds in total seconds
 
   useEffect(() => {
@@ -24,10 +24,12 @@ export const Navbar = () => {
   return (
     <div className="w-full bg-gradient-to-r from-slate-900 to-slate-700 px-4 py-3 flex flex-col md:flex-row items-center justify-between text-white">
       {/* Left Section */}
-      <div className="flex items-center gap-4">
-        <Menu className="w-6 h-6 cursor-pointer" />
-        <div className="text-2xl font-bold text-white">
-          <span className="text-[#00bfff]">Bet</span>Master24
+      <div className="w-full sm:max-w-xl flex items-center gap-4">
+        <div className="w-full sm:w-[200px] flex items-center justify-between gap-2">
+          <div className="text-2xl font-bold text-white">
+            <span className="text-[#00bfff]">Bet</span>Master24
+          </div>
+          <Menu className="w-6 h-6 cursor-pointer block sm:hidden" onClick={toggleSidebar}/>
         </div>
         <div className="hidden xl:flex gap-2 items-center ml-4 bg-gray-400 bg-opacity-15 rounded-md">
           <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
@@ -41,19 +43,19 @@ export const Navbar = () => {
       </div>
 
       {/* Center Bonus Section */}
-      <div className="hidden lg:flex flex-col items-center">
+      <div className="hidden xl:flex flex-col items-center">
         {/* <img src="/gift-icon.png" alt="bonus" className="w-8 h-8 mb-1" /> */}
         <span className="text-xs">Claim Bonus</span>
         <span className="text-[10px]">{formatTime(timeLeft)}</span>
       </div>
 
       {/* Right Section */}
-      <div className="flex flex-col sm:flex-row items-center gap-4 mt-2">
+      <div className="w-full md:max-w-md flex justify-between flex-row-reverse sm:flex-row items-center gap-4 mt-2">
         <div className="flex items-center gap-2">
-          <button className="text-white text-sm flex items-center gap-1 px-4 py-2 bg-gray-400 bg-opacity-15 rounded-md">
+          <button onClick={onOpenSignup} className="text-white text-sm flex items-center gap-1 px-4 py-2 bg-gray-400 bg-opacity-15 rounded-md">
             <Wallet className="w-4 h-4" /> Login
           </button>
-          <button className="bg-[#00bfff] text-white px-4 py-2 rounded-md text-sm">
+          <button onClick={onOpenSignup} className="bg-[#00bfff] text-white px-4 py-2 rounded-md text-sm">
             💰 Registration
           </button>
         </div>

@@ -20,11 +20,16 @@ const config: Config = {
       },
       animation: {
         float: 'float 4s ease-in-out infinite',
+        slideIn: "slideIn 0.3s ease-out",
       },
       keyframes: {
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        slideIn: {
+          "0%": { transform: "translateX(-100%)" },
+          "100%": { transform: "translateX(0)" },
         },
       }
     },

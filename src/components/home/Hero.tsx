@@ -78,13 +78,13 @@ export default function Hero() {
           ))}
         </div>
       </div>
-      <div className="relative h-[600px] bg-[#0d0d0d] text-white  p-6 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-12 overflow-hidden my-3 rounded-md">
+      <div className="relative h-[300px] sm:h-[600px] bg-[#0d0d0d] text-white  p-2 sm:p-6 flex flex-col md:flex-row items-center justify-between gap-6 md:gap-12 overflow-hidden my-3 rounded-md">
         {/* Text Section */}
-        <div className="flex flex-col gap-4  relative z-20 py-20 PX-2 sm:px-10">
+        <div className="w-full flex flex-col gap-4  relative z-20 py-5 sm:py-20 px-2 sm:px-10">
           <span className="bg-green-500 text-xs font-semibold text-white w-fit px-2 py-1 rounded">
             DAILY
           </span>
-          <h1 className="text-5xl font-bold leading-tight">
+          <h1 className="text-2xl sm:text-5xl font-bold leading-tight">
             Log in <br /> daily to collect <br /> your points!
           </h1>
 
@@ -95,7 +95,7 @@ export default function Hero() {
                 key={label}
                 className="bg-graycardbg p-2 rounded-md flex flex-col items-center w-14"
               >
-                <span className="text-xl">
+                <span className="text-sm sm:text-xl">
                   {String(
                     [timeLeft.hours, timeLeft.minutes, timeLeft.seconds][i]
                   ).padStart(2, "0")}

@@ -31,7 +31,7 @@ const cards = [
 
 export default function LeftSidebar() {
   return (
-    <>
+    <div onClick={(e) => e.stopPropagation()}>
       <div className="flex gap-4 bg-graycardbg">
         {cards.map((card, idx) => (
           <div
@@ -97,6 +97,6 @@ export default function LeftSidebar() {
           <MenuItem icon={<Vault />} label="Jackpot" />
         </div>
       </div>
-    </>
+    </div>
   );
 }
