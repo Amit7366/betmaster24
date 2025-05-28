@@ -48,7 +48,7 @@ export default function GameCards() {
         {games.map((game, index) => (
           <div
             key={index}
-            className="relative min-w-[160px] h-[200px] rounded-xl overflow-hidden"
+            className="relative min-w-[160px] h-[200px] rounded-xl overflow-hidden cursor-pointer hover:scale-105 transition-all ease-in-out duration-300"
           >
             {/* Background image */}
             <div className="absolute inset-0">
@@ -56,7 +56,7 @@ export default function GameCards() {
                 src={game.image}
                 alt={game.title}
                 fill
-                className="object-cover"
+                className="object-cover rounded-md"
               />
               {/* Gradient overlay */}
               <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-black/70" />

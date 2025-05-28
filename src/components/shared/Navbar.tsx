@@ -2,8 +2,14 @@
 import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/ui/avatar";
 import { Bell, ChartArea, Menu, Send, Wallet } from "lucide-react";
+import Link from "next/link";
+import { useSidebar } from "@/context/SidebarContext";
 
-export const Navbar = ({ toggleSidebar, onOpenSignup }: { toggleSidebar: () => void; onOpenSignup: () => void }) => {
+export const Navbar = ({
+  onOpenSignup
+}: {
+  onOpenSignup: () => void;
+}) => {
   const [timeLeft, setTimeLeft] = useState(43 * 60 + 7); // 43 minutes and 7 seconds in total seconds
 
   useEffect(() => {
@@ -20,16 +26,19 @@ export const Navbar = ({ toggleSidebar, onOpenSignup }: { toggleSidebar: () => v
     const secs = (seconds % 60).toString().padStart(2, "0");
     return `00 : ${mins} : ${secs}`;
   };
-
+  const { toggleSidebar } = useSidebar();
   return (
     <div className="w-full bg-gradient-to-r from-slate-900 to-slate-700 px-4 py-3 flex flex-col md:flex-row items-center justify-between text-white">
       {/* Left Section */}
       <div className="w-full sm:max-w-xl flex items-center gap-4">
         <div className="w-full sm:w-[200px] flex items-center justify-between gap-2">
-          <div className="text-2xl font-bold text-white">
+          <Link href="/" className="text-2xl font-bold text-white">
             <span className="text-[#00bfff]">Bet</span>Master24
-          </div>
-          <Menu className="w-6 h-6 cursor-pointer block sm:hidden" onClick={toggleSidebar}/>
+          </Link>
+          <Menu
+            className="w-6 h-6 cursor-pointer block sm:hidden"
+            onClick={toggleSidebar}
+          />
         </div>
         <div className="hidden xl:flex gap-2 items-center ml-4 bg-gray-400 bg-opacity-15 rounded-md">
           <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
@@ -52,12 +61,15 @@ export const Navbar = ({ toggleSidebar, onOpenSignup }: { toggleSidebar: () => v
       {/* Right Section */}
       <div className="w-full md:max-w-md flex justify-between flex-row-reverse sm:flex-row items-center gap-4 mt-2">
         <div className="flex items-center gap-2">
-          <button onClick={onOpenSignup} className="text-white text-sm flex items-center gap-1 px-4 py-2 bg-gray-400 bg-opacity-15 rounded-md">
-            <Wallet className="w-4 h-4" /> Login
+          <button className="text-white text-sm flex items-center gap-1 px-4 py-2 bg-gray-400 bg-opacity-15 rounded-md">
+            <Wallet className="w-4 h-4" /> 5000
           </button>
-          <button onClick={onOpenSignup} className="bg-[#00bfff] text-white px-4 py-2 rounded-md text-sm">
-            💰 Registration
-          </button>
+          <Link
+            href={"/member/deposit"}
+            className="bg-[#00bfff] text-white px-4 py-2 rounded-md text-sm"
+          >
+            💰 Deposit
+          </Link>
         </div>
         <div className="flex items-center gap-2">
           <div className="flex items-center gap-2">
@@ -73,7 +85,10 @@ export const Navbar = ({ toggleSidebar, onOpenSignup }: { toggleSidebar: () => v
             <span className="text-sm hidden sm:inline-block">Abir Designs</span>
           </div>
           <div className=" cursor-pointer bg-gray-400 bg-opacity-15 rounded-md w-8 h-8 flex justify-center items-center">
-            <Send className="w-3 h-3" />
+            <button onClick={onOpenSignup} >
+           
+              <Send className="w-3 h-3" />
+            </button>
           </div>
           <div className=" cursor-pointer bg-gray-400 bg-opacity-15 rounded-md w-8 h-8 flex justify-center items-center">
             <Bell className="w-3 h-3" />
