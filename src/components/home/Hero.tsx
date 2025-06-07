@@ -131,12 +131,12 @@ export default function Hero() {
           </div>
 
           {/* Button */}
-          <button
+          {/* <button
             className="bg-blue-500 hover:bg-blue-600 transition px-6 py-2 rounded text-sm font-medium w-fit"
             onClick={() => setShowModal(true)}
           >
             Collect
-          </button>
+          </button> */}
         </div>
 
         {/* Image Section */}

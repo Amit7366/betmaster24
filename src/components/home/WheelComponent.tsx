@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
-import confetti from "canvas-confetti";
+import { toast } from "sonner";
 
 interface SpinWheelProps {
   prizes?: string[];
@@ -147,11 +147,12 @@ export default function SpinWheel({
       setHistory((prev) => [winningPrize, ...prev]);
 
       winAudio.current?.play();
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.4 },
-      });
+      // confetti({
+      //   particleCount: 100,
+      //   spread: 70,
+      //   origin: { y: 0.4 },
+      // });
+      toast('You have won ' + winningPrize + '!', { icon: '🎉' });
       console.log({
         angle: angleRef.current,
         adjustedAngle,

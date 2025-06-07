@@ -5,6 +5,7 @@ import { SidebarProvider } from "@/context/SidebarContext";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { useState } from "react";
+import { Toaster } from "sonner";
 
 
 
@@ -19,6 +20,7 @@ export default function MainLayout({
   const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   return (
     <SidebarProvider>
+      <Toaster />
       <Navbar
         // toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
         onOpenSignup={() => setIsSignupModalOpen(true)}
