@@ -6,6 +6,28 @@ import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaUser, FaUsers, FaKey, FaDollarSign } from "react-icons/fa";
 import GameCards from "./GameCards";
+import { motion } from "framer-motion";
+import WheelComponent from "./WheelComponent";
+
+const wheelValues = [
+  "৳557",
+  "৳77,777",
+  "৳10,777",
+  "৳377",
+  "৳3,777",
+  "৳1,577",
+  "৳777",
+];
+const segmentColors = [
+  "#b30000",
+  "#cc0000",
+  "#e60000",
+  "#990000",
+  "#cc3300",
+  "#ff3300",
+  "#cc0000",
+];
+
 export default function Hero() {
   const [timeLeft, setTimeLeft] = useState(getInitialTimeLeft());
 
@@ -52,6 +74,7 @@ export default function Hero() {
       bg: "bg-gradient-to-r from-orange-500 to-red-600",
     },
   ];
+
   return (
     <section>
       <div className="w-full bg-[#0d0d0d] py-2 overflow-x-auto whitespace-nowrap hide-scrollbar">
@@ -108,7 +131,10 @@ export default function Hero() {
           </div>
 
           {/* Button */}
-          <button className="bg-blue-500 hover:bg-blue-600 transition px-6 py-2 rounded text-sm font-medium w-fit">
+          <button
+            className="bg-blue-500 hover:bg-blue-600 transition px-6 py-2 rounded text-sm font-medium w-fit"
+            onClick={() => setShowModal(true)}
+          >
             Collect
           </button>
         </div>
@@ -136,6 +162,7 @@ export default function Hero() {
         ))}
       </div>
       <GameCards />
+      <WheelComponent />
     </section>
   );
 }
