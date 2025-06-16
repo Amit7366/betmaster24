@@ -41,13 +41,13 @@ export const Navbar = ({
           />
         </div>
         <div className="hidden xl:flex gap-2 items-center ml-4 bg-gray-400 bg-opacity-15 rounded-md">
-          <button className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
+          <Link href="/games" className="bg-blue-500 text-white px-4 py-2 rounded-md text-sm">
             🎰 Casino
-          </button>
-          <span className="text-sm cursor-pointer px-4 py-2">⚽ Sports</span>
-          <span className="text-sm cursor-pointer px-4 py-2">
+          </Link>
+          <Link href="/games" className="text-sm cursor-pointer px-4 py-2">⚽ Sports</Link>
+          <Link href="/games" className="text-sm cursor-pointer px-4 py-2">
             🧍 Live casino
-          </span>
+          </Link>
         </div>
       </div>
 
@@ -72,7 +72,7 @@ export const Navbar = ({
           </Link>
         </div>
         <div className="flex items-center gap-2">
-          <div className="flex items-center gap-2">
+          <Link  href={"/member/deposit"} className="flex items-center gap-2">
             <Avatar className="w-8 h-8">
               <AvatarImage
                 src={
@@ -83,7 +83,7 @@ export const Navbar = ({
               {/* <AvatarFallback>AD</AvatarFallback> */}
             </Avatar>
             <span className="text-sm hidden sm:inline-block">Abir Designs</span>
-          </div>
+          </Link>
           <div className=" cursor-pointer bg-gray-400 bg-opacity-15 rounded-md w-8 h-8 flex justify-center items-center">
             <button onClick={onOpenSignup} >
            

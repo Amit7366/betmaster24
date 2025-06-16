@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.14",
+    "axios": "^1.10.0",
     "canvas-confetti": "^1.9.3",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "crypto-js": "^4.2.0",
     "framer-motion": "^12.15.0",
     "lucide-react": "^0.511.0",
     "next": "14.0.3",
