@@ -8,6 +8,13 @@ import { FaHeart } from "react-icons/fa";
 import { aes256EncryptBrowser } from "@/utils/encrypt";
 import axios from "axios";
 
+type Game = {
+  game_code: string;
+  game_image: string;
+  game_name: string;
+  // add any other properties here
+};
+
 const GamePage = () => {
   const [games, setGames] = useState([]);
   const [gameUrl, setGameUrl] = useState("");
@@ -44,9 +51,9 @@ const GamePage = () => {
         timestamp: Date.now(),
       };
 
-      const secretKey = process.env.NEXT_PUBLIC_SECRET_KEY;
+      const secretKey = process.env.NEXT_PUBLIC_PLAYWIN_SECRET;
       const encryptedPayload = aes256EncryptBrowser(
-        secretKey,
+        '3808d1c3365ea280363fd6dbf603d712',
         JSON.stringify(payload)
       );
 
@@ -97,7 +104,7 @@ const GamePage = () => {
         </div>
 
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-4 overflow-x-auto sm:overflow-visible">
-          {games?.map((game, i) => (
+          {games?.map((game: Game, i) => (
             <div
               onClick={() => handlePlay(game?.game_code)}
               key={i}
