@@ -5,9 +5,13 @@ import { gameData } from "@/constants";
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
 import { FaUser, FaUsers, FaKey, FaDollarSign } from "react-icons/fa";
-import GameCards from "./GameCards";
+
 import { motion } from "framer-motion";
 import WheelComponent from "./WheelComponent";
+import Link from "next/link";
+import VipSlider from "./VipSlider";
+import HeadTail from "../inhouse/HeadTail";
+
 
 const wheelValues = [
   "৳557",
@@ -77,10 +81,15 @@ export default function Hero() {
 
   return (
     <section>
+      <VipSlider />
+      <HeadTail 
+      // forcedResult=""
+      />
       <div className="w-full bg-[#0d0d0d] py-2 overflow-x-auto whitespace-nowrap hide-scrollbar">
         <div className="inline-flex gap-2 px-4">
           {gameData.map((game, index) => (
-            <div
+            <Link
+              href={"/games"}
               key={index}
               className="min-w-[140px] bg-black rounded-xl overflow-hidden flex flex-row justify-start items-center gap-2 text-white text-xs py-1 px-2 shadow-md border border-gray-800"
             >
@@ -97,7 +106,7 @@ export default function Hero() {
                 </p>
                 <p className="text-yellow-400 font-bold">{game.amount}</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
@@ -148,6 +157,113 @@ export default function Hero() {
           className="absolute top-0 left-0 w-full h-full bg-cover bg-center"
         />
       </div>
+      <div className="px-2 sm:px-0 py-4">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-lg font-semibold flex items-center gap-2 text-white">
+            🎮 All Provider
+          </h2>
+          {/* <Link
+            href="/games"
+            className="text-sm text-gray-300 hover:text-white"
+          >
+            View All
+          </Link> */}
+        </div>
+        <div className="flex justify-between gap-3 items-center">
+          <div className="w-3/5 h-[160px] relative min-h-[170px]">
+            <Image
+              src="https://www.club99bdt.com/static/img/ppg.6fa7893.webp"
+              alt="Provider"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "160px" }}
+              className="absolute top-0 left-0 rounded-xl"
+            />
+          </div>
+          <div className="w-2/5 h-[160px] relative min-h-[170px]">
+            <Image
+              src="https://www.club99bdt.com/static/img/nextspin.913c157.webp"
+              alt="Provider"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "160px" }}
+              className="absolute top-0 left-0 rounded-xl"
+            />
+          </div>
+        </div>
+
+        <div className="grid gap-3 grid-cols-3 md:grid-cols-4 mt-3">
+          <div className="rounded-xl relative w-full min-h-[170px]">
+            <Image
+              src="https://www.club99bdt.com/static/img/joker.a95de44.webp"
+              alt="Provider"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "160px" }}
+              className="absolute top-0 left-0 rounded-xl"
+            />
+          </div>
+          <div className="rounded-xl relative w-full min-h-[170px]">
+            <Image
+              src="https://www.club99bdt.com/static/img/amb.61a8ae3.webp"
+              alt="Provider"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "160px" }}
+              className="absolute top-0 left-0 rounded-xl"
+            />
+          </div>
+          <div className="rounded-xl relative w-full min-h-[170px]">
+            <Image
+              src="https://www.club99bdt.com/static/img/h5kiss.37df68a.webp"
+              alt="Provider"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "160px" }}
+              className="absolute top-0 left-0 rounded-xl"
+            />
+          </div>
+          <div className="rounded-xl relative w-full min-h-[170px]">
+            <Image
+              src="https://www.club99bdt.com/static/img/lfc3.5f9cf6a.webp"
+              alt="Provider"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "160px" }}
+              className="absolute top-0 left-0 rounded-xl"
+            />
+          </div>
+          <div className="rounded-xl relative w-full min-h-[170px]">
+            <Image
+              src="https://www.club99bdt.com/static/img/ace.5029035.webp"
+              alt="Provider"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "160px" }}
+              className="absolute top-0 left-0 rounded-xl"
+            />
+          </div>
+          <div className="rounded-xl relative w-full min-h-[170px]">
+            <Image
+              src="https://www.club99bdt.com/static/img/haba.e3b2c23.webp"
+              alt="Provider"
+              width={0}
+              height={0}
+              sizes="100vw"
+              style={{ width: "100%", height: "160px" }}
+              className="absolute top-0 left-0 rounded-xl"
+            />
+          </div>
+        </div>
+      </div>
+
       <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 justify-center px-2 sm:px-0 py-4 ">
         {features.map((feature, idx) => (
           <div
@@ -161,8 +277,9 @@ export default function Hero() {
           </div>
         ))}
       </div>
-      <GameCards />
-      <WheelComponent />
+
+   
+      {/* <WheelComponent /> */}
     </section>
   );
 }

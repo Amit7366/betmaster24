@@ -4,12 +4,31 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/ui/avatar";
 import { Bell, ChartArea, Menu, Send, Wallet } from "lucide-react";
 import Link from "next/link";
 import { useSidebar } from "@/context/SidebarContext";
+import { useGetUserBalanceQuery } from "@/redux/api/balanceApi";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/redux/store";
 
 export const Navbar = ({
   onOpenSignup
 }: {
   onOpenSignup: () => void;
 }) => {
+
+    const dispatch = useDispatch();
+    const { user, isAuthenticated } = useSelector(
+      (state: RootState) => state.auth
+    );
+  
+    const objectId = user?.objectId;
+  
+    const {
+      data: balanceData,
+      error,
+      isLoading,
+      refetch, // optional manual refetch
+    } = useGetUserBalanceQuery(objectId!, {
+      skip: !objectId,
+    });
   const [timeLeft, setTimeLeft] = useState(43 * 60 + 7); // 43 minutes and 7 seconds in total seconds
 
   useEffect(() => {
@@ -62,7 +81,7 @@ export const Navbar = ({
       <div className="w-full md:max-w-md flex justify-between flex-row-reverse sm:flex-row items-center gap-4 mt-2">
         <div className="flex items-center gap-2">
           <button className="text-white text-sm flex items-center gap-1 px-4 py-2 bg-gray-400 bg-opacity-15 rounded-md">
-            <Wallet className="w-4 h-4" /> 5000
+            <Wallet className="w-4 h-4" /> {balanceData?.data?.currentBalance || 0}
           </button>
           <Link
             href={"/member/deposit"}

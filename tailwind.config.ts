@@ -12,6 +12,7 @@ const config: Config = {
         background: '#111113',
         graybg: '#18181C',
         graycardbg: '#211F27',
+        primary:'#081B21'
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -21,6 +22,9 @@ const config: Config = {
       animation: {
         float: 'float 4s ease-in-out infinite',
         slideIn: "slideIn 0.3s ease-out",
+        'spin-custom': 'spin-horizontal 3s ease-in-out forwards',
+        'coin-flip-realistic': 'coin-flip-realistic 3s ease-in-out',
+         "shine": "shine 4s infinite",
       },
       keyframes: {
         float: {
@@ -31,11 +35,28 @@ const config: Config = {
           "0%": { transform: "translateX(-100%)" },
           "100%": { transform: "translateX(0)" },
         },
+        'spin-custom': {
+          '0%': { transform: 'rotateY(0deg)' },
+          '100%': { transform: 'rotateY(3600deg)' }, // just visual, final result set via inline
+        },
+        'spin-horizontal': {
+          '0%': { transform: 'rotateX(0deg)' },
+          '100%': { transform: 'rotateX(3600deg)' }, // Adjust degrees if you want more/less spins
+        },
+        'coin-flip-realistic': {
+          '0%': { transform: 'rotateY(0deg)' },
+          '100%': { transform: 'rotateY(1800deg)' }, // 5 flips
+        },
+        "shine": {
+          "0%": { transform: "translateX(-100%)" },
+          "25%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(100%)" },
+        },
       }
     },
   },
   plugins: [
-   
+
   ],
 }
 export default config

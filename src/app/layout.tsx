@@ -1,22 +1,28 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+import Providers from "./providers";
+import { Toaster } from "sonner";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'BetMaster24',
-  description: 'The online Gaming Platform',
-}
+  title: "BetMaster24",
+  description: "The online Gaming Platform",
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
-      <body className="bg-background overflow-auto hide-scrollbar">{children}</body>
+      <body className="bg-background overflow-auto hide-scrollbar">
+        <Toaster/>
+        <Providers>{children}</Providers>
+        {/* {children} */}
+      </body>
     </html>
-  )
+  );
 }

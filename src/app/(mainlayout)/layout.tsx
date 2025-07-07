@@ -1,40 +1,27 @@
-"use client";
-import SignupModal from "@/components/modal/SignupModal";
-import { Navbar } from "@/components/shared/Navbar";
-import { SidebarProvider } from "@/context/SidebarContext";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { useState } from "react";
+import WelcomeBonusModal from "@/components/modal/WelcomeBonusModal";
+import BottomNav from "@/components/shared/BottomNav";
+import Sidebar from "@/components/shared/Sidebar";
+import SocialFloatingBar from "@/components/shared/SocialFloatingBar";
+import TopNav from "@/components/shared/TopNav";
+import { SidebarProvider } from "@/context/SidebarNewContext";
 import { Toaster } from "sonner";
-
-
-
-
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isSignupModalOpen, setIsSignupModalOpen] = useState(false);
   return (
     <SidebarProvider>
       <Toaster />
-      <Navbar
-        // toggleSidebar={() => setIsSidebarOpen((prev) => !prev)}
-        onOpenSignup={() => setIsSignupModalOpen(true)}
-      />
-      <section
-        className="bg-background overflow-auto hide-scrollbar"
-      
-      >
-        {children}
-      </section>
-      <SignupModal
-        isOpen={isSignupModalOpen}
-        onClose={() => setIsSignupModalOpen(false)}
-      />
+      <div className="bg-primary relative">
+        <TopNav />
+        <Sidebar />
+        <main className="pt-24 pb-20 min-h-screen">{children}</main>
+        <BottomNav />
+        <SocialFloatingBar />
+        <WelcomeBonusModal />
+      </div>
     </SidebarProvider>
   );
 }
