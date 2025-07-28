@@ -1,6 +1,7 @@
 // services/auth.services.ts
 import { authKey } from "@/constants/authKey";
-import { setToLocalStorage } from "@/utils/local-storage";
+import { decodedToken } from "@/utils/jwt";
+import { getFromLocalStorage, setToLocalStorage } from "@/utils/local-storage";
 import Cookies from "js-cookie";
 import { jwtDecode } from "jwt-decode";
 
@@ -39,4 +40,19 @@ export const refreshAccessToken = async () => {
   const user = jwtDecode<DecodedUser>(data.accessToken);
 
   return { accessToken: data.accessToken, user };
+};
+
+export const getUserInfo = () => {
+   const authToken = getFromLocalStorage(authKey);
+   //   console.log(authToken);
+   if (authToken) {
+      const decodedData: any = decodedToken(authToken);
+      // console.log(decodedData)
+      return {
+         ...decodedData,
+         role: decodedData?.role?.toLowerCase(),
+      };
+   } else {
+      return '';
+   }
 };

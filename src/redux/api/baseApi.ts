@@ -17,7 +17,7 @@ export const baseApi = createApi({
     },
   }),
   // ✅ Declare all valid tag types here
-  tagTypes: ["UserBalance"],
+  tagTypes: ["UserBalance","GroupedGames", "GamesByProvider","GamesByCategory"],
 
   endpoints: () => ({}),
 });

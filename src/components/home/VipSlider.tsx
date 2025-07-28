@@ -20,7 +20,7 @@ const slides = [
   },
 ];
 
-export default function CustomSlider() {
+export default function VipSlider() {
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
   const sliderRef = useRef<HTMLDivElement>(null);

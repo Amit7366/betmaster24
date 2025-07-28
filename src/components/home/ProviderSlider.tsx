@@ -3,7 +3,7 @@
 import { useMemo } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Boxes, ChevronLeft, ChevronRight, Gamepad, HomeIcon } from "lucide-react";
 import "swiper/css";
 import "swiper/css/navigation";
 import SingleGame from "../game/SingleGame";
@@ -38,21 +38,23 @@ const ProviderSlider = ({ provider, games }: ProviderSliderProps) => {
   const nextClass = `swiper-button-next-${uniqueId}`;
 
   return (
-    <div className="relative bg-[#092731] rounded-xl p-4 my-3">
+    <div className="relative bg-secondary rounded-xl p-4 my-3">
       {/* Top Row: Title + Arrows */}
       <div className="flex items-center justify-between">
-        <div className="relative bg-[#0e3d48] text-white font-bold px-4 py-2 rounded-t-xl -mt-6 z-10 w-fit">
-          <span className="text-yellow-400">{provider}({games.length})</span>
+        <div className="relative  text-white font-semibold py-2  z-10 w-fit flex items-center gap-2">
+          {/* <Boxes /> */}
+          <Gamepad />
+          <span className="text-accent uppercase">{provider}</span>
         </div>
 
         <div className="flex items-center gap-2">
           <button
-            className={`${prevClass} w-8 h-8 bg-[#0e3d48] text-white rounded-full flex items-center justify-center`}
+            className={`${prevClass} w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center`}
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <button
-            className={`${nextClass} w-8 h-8 bg-[#0e3d48] text-white rounded-full flex items-center justify-center`}
+            className={`${nextClass} w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center`}
           >
             <ChevronRight className="w-4 h-4" />
           </button>

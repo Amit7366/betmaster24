@@ -106,11 +106,11 @@ const SingleGame = ({ game,provider }: GameCardProps) => {
   return (
     <div
       onClick={() => handlePlay(game?.game_code)}
-      className="shine-effect relative w-full h-[150px] rounded-xl overflow-hidden cursor-pointer hover:scale-105 transition-all ease-in-out duration-300"
+      className="shine-effect relative w-full h-[130px] rounded-xl overflow-hidden cursor-pointer hover:scale-105 transition-all ease-in-out duration-300"
     >
       {/* Background image */}
       <div className="absolute z-[5] inset-0">
-        <div className="relative w-full h-[150px]">
+        <div className="relative w-full h-full">
           <Image
             src={game.game_image}
             alt={game.game_name}
@@ -124,7 +124,7 @@ const SingleGame = ({ game,provider }: GameCardProps) => {
 
       {/* Text content */}
       <div className="relative z-20 flex flex-col justify-between h-full px-3 py-4 text-white">
-        <h3 className="text-sm font-bold">{game.game_name}</h3>
+        <h3 className="text-xs font-bold">{game.game_name}</h3>
         <p className="text-xs text-white/80">{game.game_type}</p>
       </div>
     </div>

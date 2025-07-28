@@ -86,15 +86,17 @@ const gameData = [
     },
 ];
 const categories = [
-    { name: "Popular", icon: "/icons/fire.png" },
-    { name: "My favorite", icon: "/icons/star.png" },
-    { name: "JILI", icon: "/icons/jilli.png" },
-    { name: "Slots", icon: "/icons/slots.png" },
-    { name: "Fish", icon: "/icons/fish.png" },
-    { name: "Live", icon: "/icons/live.png" },
-    { name: "Crash", icon: "/icons/crash.png" },
-    { name: "Poker", icon: "/icons/poker.png" },
-    { name: "Sports", icon: "/icons/sports.png" },
+    { name: "Slot",type:'category', icon: "/icons/slots.png" },
+    { name: "Jilli",type:'provider', icon: "/icons/jilli.png" },
+    { name: "Jdb",type:'provider', icon: "/icons/fire.png" },
+    { name: "Fishing",type:'category', icon: "/icons/fish.png" },
+    { name: "Cq9",type:'provider', icon: "/icons/star.png" },
+    { name: "PGSoft",type:'provider', icon: "/icons/star.png" },
+    { name: "Live",type:'category', icon: "/icons/live.png" },
+    { name: "Evolution",type:'provider', icon: "/icons/star.png" },
+    // { name: "Crash", icon: "/icons/crash.png" },
+    // { name: "Poker", icon: "/icons/poker.png" },
+    // { name: "Sports", icon: "/icons/sports.png" },
 ];
 const coinFaces = {
     tails: "https://i.ibb.co/h1fhqR46/tails.jpg",
@@ -1358,13 +1360,193 @@ const evolution = {
 
 
 }
+const popular = {
+    platform: 'live',
+    provider: 'popular',
+    games: [
+        {
+            game_name: 'Baccarat Squeeze',
+            game_code: '404f0952ac7e25d242f2079dfe390983',
+            game_type: 'CasinoLive',
+            game_image: 'https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/evoplay/Baccarat Squeeze.png'
+        }
+    ]
+}
+const favorite = {
+    platform: 'live',
+    provider: 'favorite',
+    games: [
+        {
+            game_name: 'Baccarat Squeeze',
+            game_code: '404f0952ac7e25d242f2079dfe390983',
+            game_type: 'CasinoLive',
+            game_image: 'https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/evoplay/Baccarat Squeeze.png'
+        }
+    ]
+}
+const live = {
+    platform: 'live',
+    provider: 'live',
+    games: [
+        {
+            game_name: 'Super Sic Bo',
+            game_code: 'e3951a5bf624e822a22cba1cbe619df5',
+            game_type: 'CasinoLive',
+            game_image: 'https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/evoplay/Super Sic Bo.png'
+        },
+        {
+            game_name: 'First Person Top Card',
+            game_code: '64985010e87aab51c7fb18076d34062d',
+            game_type: 'CasinoLive',
+            game_image: ''
+        },
+        {
+            game_name: 'First Person Dream Catcher',
+            game_code: '7ee0da50996278d7fe5136f86f368fa5',
+            game_type: 'CasinoLive',
+            game_image: 'https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/evoplay/First Person Dream Catcher.png'
+        },
+        {
+            game_name: 'First Person Dragon Tiger',
+            game_code: '4b4c45709dfd8188d7d6d12fae15bd42',
+            game_type: 'CasinoLive',
+            game_image: 'https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/evoplay/First Person Dragon Tiger.png'
+        },
+        {
+            game_name: 'First Person Mega Ball',
+            game_code: '3150b1cd8fbbddd94d36f20fab504653',
+            game_type: 'CasinoLive',
+            game_image: 'https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/evoplay/First Person Mega Ball.png'
+        },
+        {
+            game_name: 'First Person Lightning Baccarat',
+            game_code: 'fec1b730e804bf14bd471a1e9b82bf44',
+            game_type: 'CasinoLive',
+            game_image: 'https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/evoplay/First Person Lightning Baccarat.png'
+        },
+        {
+            game_name: 'First Person Craps',
+            game_code: '823245918aa2afd108a5912e363c083c',
+            game_type: 'CasinoLive',
+            game_image: 'https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/evoplay/First Person Craps.png'
+        },
+        {
+            game_name: 'First Person Baccarat',
+            game_code: 'e18dfa4a5dd4a0f2d8b45337bd6abb9d',
+            game_type: 'CasinoLive',
+            game_image: 'https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/evoplay/First Person Baccarat.png'
+        },
+    ]
+}
+const slot = {
+    platform: 'live',
+    provider: 'slot',
+    games: [
+        {
+            "game_name": "Chin Shi Huang",
+            "game_code": "24da72b49b0dd0e5cbef9579d09d8981",
+            "game_type": "Slot Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/Chin-Shi-Huang.png"
+        },
+        {
+            "game_name": "God Of Martial",
+            "game_code": "21ef8a7ddd39836979170a2e7584e333",
+            "game_type": "Slot Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/God-Of-Martial.png"
+        },
+        {
+            "game_name": "Hot Chilli",
+            "game_code": "c845960c81d27d7880a636424e53964d",
+            "game_type": "Slot Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/Hot-Chilli.png"
+        },
+        {
+            "game_name": "Fortune Tree",
+            "game_code": "6a7e156ceec5c581cd6b9251854fe504",
+            "game_type": "Slot Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/Fortune-Tree.png"
+        },
+        {
+            "game_name": "War Of Dragons",
+            "game_code": "4b1d7ffaf9f66e6152ea93a6d0e4215b",
+            "game_type": "Slot Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jili/War-Of-Dragons.png"
+        },
+    ]
+}
+const fish = {
+    platform: 'live',
+    provider: 'fish',
+    games: [
+        {
+            "game_name": "Spirit Tide Legend (Fishing Legend)",
+            "game_code": "638d38491dad4a6562713143b1fc6cc1",
+            "game_type": "Fish Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Fishing-Legend.png"
+        },
+        {
+            "game_name": "Fishing Disco",
+            "game_code": "e453b811fd1782fd2ade1f93ee0dee32",
+            "game_type": "Fish Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Fishing-Disco.png"
+        },
+        {
+            "game_name": "Dragon Master",
+            "game_code": "f691d904ea681ce449263f7e9cc47c35",
+            "game_type": "Fish Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Dragon-Master.png"
+        },
+        {
+            "game_name": "Fishing Yilufa",
+            "game_code": "877c97367d24925a11d342726eb0320f",
+            "game_type": "Fish Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Fishing-Yilufa.png"
+        },
+        {
+            "game_name": "Shade Dragons Fishing",
+            "game_code": "89e967a8336fb8caad2c1b6d735588fe",
+            "game_type": "Fish Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Shade-Dragons-Fishing.png"
+        },
+        {
+            "game_name": "Cai Shen Fishing",
+            "game_code": "6df463eabe5fcdaa033e1c89b9ffd162",
+            "game_type": "Fish Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Cai-Shen-Fishing.png"
+        },
+        {
+            "game_name": "Dragon Fishing Ii",
+            "game_code": "6cef8d8ea517d86602db60fe9781b01b",
+            "game_type": "Fish Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Dragon-Fishing-Ii.png"
+        },
+        {
+            "game_name": "Dragon Fishing",
+            "game_code": "1145d7cd96518a5ba2f77cb14cb363c4",
+            "game_type": "Fish Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Dragon-Fishing.png"
+        },
+        {
+            "game_name": "Fighter Fire",
+            "game_code": "ff83699bef9b2e773857ed1a9eedc5fb",
+            "game_type": "Fish Game",
+            "game_image": "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/jdb/Fighter-Fire.png"
+        }
+    ]
+}
+
 const allProviderGames: ProviderGame[] = [
     evolution,
     pgsoft,
     jilli,
     jdb,
     cq9,
+    popular,
+    live,
+    slot,
+    fish,
+    favorite
 ]
 
 
-export { gameData, categories,coinFaces, allProviderGames };
+export { gameData, categories, coinFaces, allProviderGames, jilli };

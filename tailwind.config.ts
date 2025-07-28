@@ -9,10 +9,12 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        background: '#111113',
-        graybg: '#18181C',
-        graycardbg: '#211F27',
-        primary:'#081B21'
+        accent: '#FECA1F',
+        secondary: '#313640',
+        cardbg: '#262C35',
+        primary:'#21242C',
+        navbg:'#11141C',
+        textcolor:'#898B8F'
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
@@ -25,6 +27,7 @@ const config: Config = {
         'spin-custom': 'spin-horizontal 3s ease-in-out forwards',
         'coin-flip-realistic': 'coin-flip-realistic 3s ease-in-out',
          "shine": "shine 4s infinite",
+          marquee: 'marquee 20s linear infinite',
       },
       keyframes: {
         float: {
@@ -51,6 +54,10 @@ const config: Config = {
           "0%": { transform: "translateX(-100%)" },
           "25%": { transform: "translateX(100%)" },
           "100%": { transform: "translateX(100%)" },
+        },
+         marquee: {
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
       }
     },

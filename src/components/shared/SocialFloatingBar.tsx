@@ -10,7 +10,7 @@ import {
 
 export default function SocialFloatingBar() {
   return (
-    <div className="fixed right-2 bottom-1/5 flex flex-col items-center gap-2 z-50">
+    <div className="fixed right-4 sm:right-[calc(50%-200px)]   bottom-32 flex flex-col items-center gap-4 z-[9999]">
       {/* WhatsApp */}
       <Link
         href="https://wa.me/1234567890"
