@@ -1,0 +1,95 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+
+/* Hide scrollbar but allow scroll */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.hide-scrollbar {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.perspective {
+  perspective: 1000px;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
+/* globals.css */
+/* globals.css */
+.shine-effect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shine-effect::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 200%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.4) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  animation: shine 4s infinite;
+  z-index: 10;
+  pointer-events: none;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%);
+  }
+  25% {
+    transform: translateX(100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+@layer utilities {
+  @keyframes grow-bar {
+    from {
+      width: 0%;
+    }
+    to {
+      width: var(--tw-width, 100%);
+    }
+  }
+
+  .animate-grow-bar {
+    animation: grow-bar 1.2s ease-out forwards;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.animate-scaleIn {
+  animation: scaleIn 0.2s ease-out;
+}
