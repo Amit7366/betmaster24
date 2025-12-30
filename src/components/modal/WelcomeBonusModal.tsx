@@ -1,41 +1,27 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { X } from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
 import { FaTelegramPlane } from "react-icons/fa";
 
-export default function WelcomeBonusModal() {
-  const [show, setShow] = useState(false);
+type Props = {
+  open: boolean;
+  onClose: () => void;
+};
 
-  useEffect(() => {
-    const alreadyShown = localStorage.getItem("welcome_modal_shown");
-
-    if (!alreadyShown) {
-      const timer = setTimeout(() => {
-        setShow(true);
-        localStorage.setItem("welcome_modal_shown", "true");
-      }, 1000); // Show after 1s
-
-      return () => clearTimeout(timer);
-    }
-  }, []);
-
-  if (!show) return null;
+export default function WelcomeBonusModal({ open, onClose }: Props) {
+  if (!open) return null;
 
   return (
     <div className="fixed inset-0 bg-black/60 z-50 flex items-center justify-center px-4">
       <div className="relative bg-gradient-to-b from-[#6c1e0d] to-[#fdba74] max-w-md w-full rounded-xl overflow-hidden shadow-xl border-4 border-yellow-400">
-        {/* Close */}
         <button
-          onClick={() => setShow(false)}
+          onClick={onClose}
           className="absolute top-2 right-2 bg-white rounded-full p-1 z-10"
         >
           <X className="w-5 h-5 text-red-500" />
         </button>
 
-        {/* Modal Content */}
         <div className="text-center text-white p-4 space-y-3 bg-[url('/path-to-your-bg-image.png')] bg-cover bg-center">
           <h2 className="text-xl font-bold">নতুন সদস্যের সুবিধা</h2>
           <p className="text-base font-semibold text-yellow-300">

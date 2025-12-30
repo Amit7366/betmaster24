@@ -144,7 +144,7 @@ const NormalUsersTable = () => {
               "Content-Type": "application/json",
               Authorization: `${token}`,
             },
-            body: JSON.stringify({ bonusAmount: 70 }),
+            body: JSON.stringify({ bonusAmount: 50 }),
           }
         ).then((res) => {
           if (!res.ok) throw new Error("Failed to give bonus");

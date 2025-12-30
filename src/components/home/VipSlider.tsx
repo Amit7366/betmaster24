@@ -3,29 +3,26 @@ import { useEffect, useRef, useState } from "react";
 
 const slides = [
   {
-    img: "/images/slide1.webp",
+    img: "/images/slide1.png",
     alt: "Slide 1",
   },
   {
-    img: "/images/slide2.webp",
+    img: "/images/slide2.png",
     alt: "Slide 2",
   },
   {
-    img: "/images/slide3.webp",
+    img: "/images/slide3.png",
     alt: "Slide 3",
   },
   {
-    img: "/images/slide4.webp",
+    img: "/images/slide4.png",
     alt: "Slide 1",
   },
   {
-    img: "/images/slide5.webp",
+    img: "/images/slide5.png",
     alt: "Slide 1",
   },
-  {
-    img: "/images/slide6.webp",
-    alt: "Slide 1",
-  }
+ 
 ];
 
 export default function VipSlider() {
@@ -134,7 +131,7 @@ export default function VipSlider() {
   };
 
   return (
-    <div className="w-full relative overflow-hidden py-2">
+    <div className="w-full relative overflow-hidden py-2 mt-16">
       <div
         ref={sliderRef}
         onTouchStart={handleTouchStart}
@@ -157,7 +154,7 @@ export default function VipSlider() {
       </div>
 
       {/* Pagination Dots */}
-      <div className="absolute bottom-4 right-3 flex justify-center gap-2 mt-4">
+      <div className="absolute bottom-4 left-3 flex justify-center gap-2 mt-4">
         {slides.map((_, idx) => (
           <button
             key={idx}

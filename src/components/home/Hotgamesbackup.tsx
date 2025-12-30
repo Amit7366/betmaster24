@@ -3,10 +3,9 @@ import SingleGame from "../game/SingleGame";
 import { useGameLauncher } from "@/hooks/useGameLauncher";
 import { div } from "framer-motion/client";
 import { Flame } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
+import FullscreenLoader from "../ui/FullscreenLoader";
 
-const SportsGames = () => {
+const Hotgames = () => {
   const games = [
     {
       _id: "68f3af742660fb6a568b52c6",
@@ -96,7 +95,9 @@ const SportsGames = () => {
   const { handlePlay, launching } = useGameLauncher();
   return (
     <div className="my-3 bg-[#241A3E] py-3 px-2 relative">
-      <div className="absolute right-0 top-0 w-full h-10 bg-primary z-10"></div>
+       {launching && <FullscreenLoader message="Launching game..." />}
+      
+        <div className="absolute right-0 top-0 w-full h-10 bg-primary z-10"></div>
       {/* Smooth downward curve bar */}
       <svg
         className="absolute top-0 left-0 min-w-[180px] h-10 text-[#241A3E] z-20"
@@ -116,23 +117,21 @@ const SportsGames = () => {
 
       <h3 className="flex gap-3 justify-start items-center mb-3 relative z-30 -translate-y-[2px]">
         <Flame className="text-yellow-400" />
-        <span className="text-white">খেলাধুলা</span>
+        <span className="text-white">গরম খেলা</span>
       </h3>
 
-      <Link href={'/category/sports'} >
-        <Image
-          src={
-            "https://images.9734232.com/prod-images/game_icon/betbdt2f4/bigImage/gcs__SPORTS-BTI_1739948616233.webp"
-          }
-          alt="Sports"
-          width={0}
-          height={0}
-          className="w-full object-cover"
-          unoptimized
-        />
-      </Link>
+      <div className="grid grid-cols-3 gap-2">
+        {games.map((game: any) => (
+          <SingleGame
+            key={game._id}
+            game={game}
+            provider={game.provider}
+            onPlay={() => handlePlay(game)}
+          />
+        ))}
+      </div>
     </div>
   );
 };
 
-export default SportsGames;
+export default Hotgames;

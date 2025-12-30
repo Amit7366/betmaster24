@@ -105,7 +105,7 @@ export default function CategoryPage({
   }
 
   return (
-    <section className="py-11 px-3">
+    <section className="py-11 px-3 mt-16">
       {launching && <FullscreenLoader message="Launching game..." />}
 
       {/* Provider chips */}

@@ -148,16 +148,16 @@ export default function ReferralPage() {
             <section className="relative rounded-2xl bg-gradient-to-br from-[#1B083E] to-[#3A0B6B] p-4 text-white">
               <div className="flex items-center gap-3">
                 <Image
-                  src="/images/bajee.png"
+                  src="/images/promotions/500 tk reffere bonus.png"
                   alt="BAJEE"
-                  width={60}
-                  height={60}
-                  className="rounded-xl"
+                  width={450}
+                  height={350}
+                  className="w-full h-auto rounded-xl"
                 />
-                <div>
+                {/* <div>
                   <p className="text-sm opacity-80">বাজি কমিশন</p>
                   <p className="text-3xl font-bold">৳ 7,500.00</p>
-                </div>
+                </div> */}
               </div>
             </section>
           </>
@@ -209,7 +209,7 @@ function RewardTab() {
       {/* Banner */}
       <div className="overflow-hidden rounded-xl">
         <Image
-          src="https://images.484930494.com/mcs-images/announcement/betbdt2f4/2691100_1747644066454.jpeg"
+          src="/images/promotions/affilate agent bonus.png"
           alt="Reward Banner"
           width={1200}
           height={400}
@@ -336,7 +336,7 @@ function IncomeTab() {
       {/* Banner */}
       <div className="overflow-hidden rounded-xl">
         <Image
-          src="https://images.484930494.com/mcs-images/announcement/betbdt2f4/2691100_1747644066454.jpeg"
+          src="/images/promotions/affilate agent bonus.png"
           alt="Income Banner"
           width={1200}
           height={400}

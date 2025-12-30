@@ -27,7 +27,8 @@ export const Footer = () => {
             <Image src={LICENSE_LOGO} width={48} height={48} alt="license" />
             <div className="text-sm leading-tight">
               <div className="text-lg font-semibold">গেমিং লাইসেন্স</div>
-              <div className="text-xs text-slate-300">local_license_1</div>
+              <div className="text-xs text-slate-300">safety_license_489594</div>
+              <div className="text-xs text-slate-300">retrot-12203694645</div>
             </div>
           </div>
 

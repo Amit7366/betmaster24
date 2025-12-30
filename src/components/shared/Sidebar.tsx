@@ -105,8 +105,8 @@ export default function Sidebar() {
             )}
           >
             {/* Header */}
-            <div className="flex justify-between items-center p-4 bg-navbg">
-              <Image src="/logo.png" alt="Logo" width={140} height={40} />
+            <div className="flex justify-between items-center bg-navbg">
+              <Image src="/logo-new.png" alt="Logo" width={100} height={20} />
               <X className="cursor-pointer text-red-600" onClick={toggle} />
             </div>
 

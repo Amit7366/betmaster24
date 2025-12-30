@@ -1,6 +1,5 @@
 "use client";
 
-import WelcomeBonusModal from "@/components/modal/WelcomeBonusModal";
 import BottomNav from "@/components/shared/BottomNav";
 import Sidebar from "@/components/shared/Sidebar";
 import SocialFloatingBar from "@/components/shared/SocialFloatingBar";
@@ -9,6 +8,7 @@ import { SidebarProvider } from "@/context/SidebarNewContext";
 import { useAuth } from "@/redux/hook/useAuth";
 import { Toaster } from "sonner";
 import { useEffect, useState } from "react";
+import PromoModals from "@/components/modal/PromoModals";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -36,7 +36,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           </main>
           <BottomNav />
           <SocialFloatingBar />
-          <WelcomeBonusModal />
+          <PromoModals/>
         </div>
       </SidebarProvider>
     </div>

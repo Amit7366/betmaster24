@@ -25,7 +25,7 @@ const MainPage = () => {
   // console.log(data);
 
   return (
-    <div className={`${isAuthenticated ? "py-10" : "py-14"} `}>
+    <div className={`${isAuthenticated ? "py-[70px]" : "py-14"} `}>
       <VipSlider />
       <AnnouncementTicker />
       {/* <MainCaterory/> */}

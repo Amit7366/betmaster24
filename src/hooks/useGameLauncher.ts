@@ -263,7 +263,7 @@ export function useGameLauncher() {
 
       // const requestBalance = {
       //   // agency_uid: "57cad57a41cCodeHub9410f86afc3bc1",
-      //   agency_uid: "0b98f74aa493413ce882a9edef9f9ede",
+      //   agency_uid: "214391ef6669df671affeb79414d400e",
       //   game_uid: (game.game_code).toString(),
       //   member_account: `h037ad_${userData?.id}_sbm24`,
       //   timestamp: (Date.now()).toString(),
@@ -287,9 +287,9 @@ export function useGameLauncher() {
 
       const requestPayload = {
         // agency_uid: "57cad57a41cCodeHub9410f86afc3bc1",
-        agency_uid: "0b98f74aa493413ce882a9edef9f9ede",
+        agency_uid: process.env.NEXT_PUBLIC_JS_UID,
         game_uid: (game.game_code).toString(),
-        member_account: `h037ad_${userData?.id}_sbm24`,
+        member_account: `h94044_${userData?.id}_sbm24`,
         timestamp: (Date.now()).toString(),
         credit_amount: (parseFloat(current?.toFixed(1))).toString(),
         // credit_amount: dataBalance?.payload?.after_amount || '0.0',
@@ -319,7 +319,7 @@ export function useGameLauncher() {
 
         // redirect user
         // window.open(launchUrl, "_blank"); 
-        // window.location.href = launchUrl;
+        window.location.href = launchUrl;
       } else {
         toast.error(`API Error: ${data.msg}`);
       }
