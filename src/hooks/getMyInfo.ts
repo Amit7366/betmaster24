@@ -14,6 +14,8 @@ export const useUserData = () => {
   const [userData, setUserData] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(false);
 
+  // console.log(user)
+
   useEffect(() => {
     const fetchUserData = async () => {
       if (!token || !objectId) return;
@@ -26,46 +28,49 @@ export const useUserData = () => {
         const controller = new AbortController();
         const t = setTimeout(() => controller.abort(), 12000); // 12s mobile-safe
 
-        try {
-          const res = await fetch(
-            // PROXY via Next.js to avoid CORS and mobile TLS quirks (see section 2)
-            `/api/normal-users/${objectId}`,
-            {
-              method: "GET",
-              headers: {
-                Authorization: `${token}`, // ✅ add Bearer
-                Accept: "application/json",
-              },
-              cache: "no-store",
-              signal: controller.signal,
-            }
-          );
-
-          // Handle non-OKs explicitly so we see WHY it failed
-          if (!res.ok) {
-            const errJson = await res.json().catch(() => ({}));
-            throw new Error(errJson?.message || `HTTP ${res.status}`);
-          }
-
-          const json = await res.json();
-          setUserData(json.data);
-          return; // success
-        } catch (err: any) {
-          if (attempt === maxAttempts) {
-            const isAbort = err?.name === "AbortError";
-            toast.error(
-              isAbort
-                ? "Request timed out. Please try again."
-                : `Failed to fetch user info: ${err?.message || "network error"}`
+        if (user?.role === "user") {
+          try {
+            const res = await fetch(
+              // PROXY via Next.js to avoid CORS and mobile TLS quirks (see section 2)
+              `/api/normal-users/${objectId}`,
+              {
+                method: "GET",
+                headers: {
+                  Authorization: `${token}`, // ✅ add Bearer
+                  Accept: "application/json",
+                },
+                cache: "no-store",
+                signal: controller.signal,
+              }
             );
-          } else {
-            // small backoff before retry
-            await sleep(500 * attempt + 500);
+
+            // Handle non-OKs explicitly so we see WHY it failed
+            if (!res.ok) {
+              const errJson = await res.json().catch(() => ({}));
+              throw new Error(errJson?.message || `HTTP ${res.status}`);
+            }
+
+            const json = await res.json();
+            setUserData(json.data);
+            return; // success
+          } catch (err: any) {
+            if (attempt === maxAttempts) {
+              const isAbort = err?.name === "AbortError";
+              toast.error(
+                isAbort
+                  ? "Request timed out. Please try again."
+                  : `Failed to fetch user info: ${err?.message || "network error"}`
+              );
+            } else {
+              // small backoff before retry
+              await sleep(500 * attempt + 500);
+            }
+          } finally {
+            clearTimeout(t);
+            setLoading(false);
           }
-        } finally {
-          clearTimeout(t);
-          setLoading(false);
         }
+
       }
     };
 

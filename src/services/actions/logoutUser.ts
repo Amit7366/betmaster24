@@ -19,7 +19,7 @@ export const logoutUser = async (dispatch: AppDispatch, redirect?: () => void) =
     dispatch(logout());
 
     // Feedback
-    toast.success("Logged out successfully!");
+    toast.success("লগ আউট সফল!");
 
     // Redirect (optional)
     if (redirect) redirect();

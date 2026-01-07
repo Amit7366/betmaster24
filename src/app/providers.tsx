@@ -8,8 +8,7 @@ import { persistor } from "@/redux/persistor";
 import { useEffect } from "react";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
-
-   useEffect(() => {
+  useEffect(() => {
     const bootstrap = async () => {
       // simulate real boot tasks
       await new Promise((r) => setTimeout(r, 300));
@@ -20,6 +19,23 @@ export default function Providers({ children }: { children: React.ReactNode }) {
     };
 
     bootstrap();
+
+    // ✅ Real-time clock in console
+    // const timer = setInterval(() => {
+    //   const now = new Date();
+
+    //   console.log(
+    //     "[Next.js client time]",
+    //     now.toString(),
+    //     "| ISO:",
+    //     now.toISOString(),
+    //     "| TZ offset (min):",
+    //     now.getTimezoneOffset()
+    //   );
+    // }, 1000);
+
+    // ✅ cleanup on unmount / hot reload
+    // return () => clearInterval(timer);
   }, []);
   return (
     <Provider store={store}>

@@ -49,7 +49,7 @@ const TransactionTable = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [dateRange, setDateRange] = useState({
     from: new Date("2025-03-01"),
-    to: new Date("2025-12-31"),
+    to: new Date("2026-12-31"),
   });
 
   const userInfo = getUserInfo();

@@ -4,7 +4,13 @@ import WeeklyRewardModal from "@/components/modal/WeeklyRewardModal";
 import CircularProgress from "@/components/ui/CircularProgress";
 import { useGetAdminPromotionSummaryQuery } from "@/redux/api/adminApi";
 import { useAuth } from "@/redux/hook/useAuth";
-import { ArrowBigRight, Copy, ShieldCheck, Wallet2, Sparkles } from "lucide-react";
+import {
+  ArrowBigRight,
+  Copy,
+  ShieldCheck,
+  Wallet2,
+  Sparkles,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -24,12 +30,42 @@ type MenuItem = {
 };
 
 const menuItems: MenuItem[] = [
-  { icon: require("lucide-react").DollarSign, title: "Deposit", value: "৳2000", href: "/dashboard/user/deposit" },
-  { icon: require("lucide-react").ArrowDownCircle, title: "Withdraw", value: "৳1000", href: "/dashboard/user/withdraw" },
-  { icon: require("lucide-react").Clock, title: "History", value: "45 txns", href: "/dashboard/user/transactions" },
-  { icon: require("lucide-react").User, title: "Profile", value: "Updated", href: "/dashboard/user/profile" },
-  { icon: require("lucide-react").Banknote, title: "Bank Details", value: "2 Accounts", href: "/dashboard/user/wallet" },
-  { icon: require("lucide-react").Banknote, title: "Game History", value: "2 Accounts", href: "/dashboard/user/game-history" },
+  {
+    icon: require("lucide-react").DollarSign,
+    title: "Deposit",
+    value: "৳2000",
+    href: "/dashboard/user/deposit",
+  },
+  {
+    icon: require("lucide-react").ArrowDownCircle,
+    title: "Withdraw",
+    value: "৳1000",
+    href: "/dashboard/user/withdraw",
+  },
+  {
+    icon: require("lucide-react").Clock,
+    title: "History",
+    value: "45 txns",
+    href: "/dashboard/user/transactions",
+  },
+  {
+    icon: require("lucide-react").User,
+    title: "Profile",
+    value: "Updated",
+    href: "/dashboard/user/profile",
+  },
+  {
+    icon: require("lucide-react").Banknote,
+    title: "Bank Details",
+    value: "2 Accounts",
+    href: "/dashboard/user/wallet",
+  },
+  {
+    icon: require("lucide-react").Banknote,
+    title: "Game History",
+    value: "2 Accounts",
+    href: "/dashboard/user/game-history",
+  },
 ];
 
 function cn(...classes: (string | boolean | undefined | null)[]) {
@@ -116,27 +152,23 @@ const DashboardCard = () => {
             <div className="flex flex-col items-start gap-3">
               <div className="flex items-center gap-2">
                 <div className="relative h-[64px] w-[64px] overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-                <Image
-                  src={userData?.profileImg || "/avatar.png"}
-                  alt="avatar"
-                  fill
-                  className="object-cover"
-                />
-
-               
-              </div>
-              <div>
-                 <p className="text-sm font-semibold text-white truncate">
-                  {userData?.name ? userData.name : "User"}
-                </p>
-                <p className="mt-0.5 text-xs text-white/60 truncate">
-                  @{userData?.userName || "username"}
-                </p>
-               </div>
+                  <Image
+                    src={userData?.profileImg || "/avatar.png"}
+                    alt="avatar"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+                <div>
+                  <p className="text-sm font-semibold text-white truncate">
+                    {userData?.name ? userData.name : "User"}
+                  </p>
+                  <p className="mt-0.5 text-xs text-white/60 truncate">
+                    @{userData?.userName || "username"}
+                  </p>
+                </div>
               </div>
               <div className="min-w-0">
-                
-
                 {/* Referral chip */}
                 <button
                   type="button"
@@ -193,7 +225,11 @@ const DashboardCard = () => {
                         : "bg-white/5 text-white/70 ring-white/10"
                     )}
                   >
-                    {showTurnover ? (isDone ? "Done" : "In progress") : "Not loaded"}
+                    {showTurnover
+                      ? isDone
+                        ? "Done"
+                        : "In progress"
+                      : "Not loaded"}
                   </span>
                 </div>
               </div>
@@ -222,7 +258,14 @@ const DashboardCard = () => {
           <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
             <StatPill
               label="Main Balance"
-              value={`${loadingBalance ? "..." : balance?.toFixed(2)} TK`}
+              value={
+                loadingBalance
+                  ? "..."
+                  : `${(typeof balance === "number" && balance > 0
+                      ? balance
+                      : 0
+                    ).toFixed(2)} TK`
+              }
             />
             <StatPill label="Status" value="Active" />
             <StatPill label="Wallet" value="Ready" />
@@ -271,7 +314,9 @@ const DashboardCard = () => {
                   <Icon className="h-4 w-4 text-white" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-sm font-medium text-white truncate">{title}</p>
+                  <p className="text-sm font-medium text-white truncate">
+                    {title}
+                  </p>
                   <p className="text-[11px] text-white/60 truncate">{value}</p>
                 </div>
               </div>

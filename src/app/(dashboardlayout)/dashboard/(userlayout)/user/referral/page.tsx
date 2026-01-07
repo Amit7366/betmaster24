@@ -209,7 +209,7 @@ function RewardTab() {
       {/* Banner */}
       <div className="overflow-hidden rounded-xl">
         <Image
-          src="/images/promotions/affilate agent bonus.png"
+          src="/images/promotions/affilate-agent-bonus.png"
           alt="Reward Banner"
           width={1200}
           height={400}
@@ -336,7 +336,7 @@ function IncomeTab() {
       {/* Banner */}
       <div className="overflow-hidden rounded-xl">
         <Image
-          src="/images/promotions/affilate agent bonus.png"
+          src="/images/promotions/affilate-agent-bonus.png"
           alt="Income Banner"
           width={1200}
           height={400}

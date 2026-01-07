@@ -116,10 +116,10 @@ const TopNav = () => {
 
   return (
     <>
-      <div className="fixed left-1/2 top-0 z-[9999] w-full max-w-[450px] -translate-x-1/2 px-3 pt-3">
+      <div className="fixed left-1/2 top-0 z-[9999] w-full max-w-[450px] -translate-x-1/2 px-1 pt-3">
         {/* Main bar */}
         <div className="rounded-3xl border border-white/10 bg-primary/80 shadow-[0_10px_35px_rgba(0,0,0,0.45)] backdrop-blur">
-          <div className="flex items-center justify-between gap-2 px-4 py-4">
+          <div className="flex items-center justify-between gap-2 p-1">
             {/* Left */}
             <div className="flex items-center gap-3">
               <button
@@ -130,7 +130,7 @@ const TopNav = () => {
                 <Menu className="h-5 w-5 text-accent" />
               </button>
 
-              <Link href="/" className="relative h-10 w-[120px]">
+              <Link href="/" className="relative h-10 w-[140px]">
                 <Image
                   src="/logo-new.png"
                   alt="Logo"
@@ -143,15 +143,15 @@ const TopNav = () => {
             {/* Right */}
             <div
               className={cn(
-                "flex items-center gap-2 rounded-2xl px-2 py-2",
+                "flex items-center gap-2 rounded-2xl px-2 py-1",
                 isAuthenticated ? "bg-secondary/60 ring-1 ring-white/10" : ""
               )}
             >
               {isAuthenticated && (
-                <div className="hidden sm:flex items-center gap-2 rounded-full bg-white/[0.06] px-3 py-1.5 ring-1 ring-white/10">
-                  <span className="text-[11px] text-white/60">Balance</span>
+                <div className="sm:flex items-center gap-2 rounded-full bg-white/[0.06] px-3 py-1 ring-1 ring-white/10">
+                  <span className="hidden md:inline-block text-[11px] text-white/60">Balance</span>
                   <span className="text-sm font-bold text-white">
-                    {loadingBalance ? "..." : `${balance?.toFixed(2)} TK`}
+                    {loadingBalance ? "..." : `${balance > 0 ? balance?.toFixed(2) : 0} TK`}
                   </span>
                 </div>
               )}
@@ -166,8 +166,8 @@ const TopNav = () => {
                     <Image
                       src={userData?.profileImg || "/icons/boy.png"}
                       alt="avatar"
-                      width={32}
-                      height={32}
+                      width={22}
+                      height={22}
                       className="rounded-xl border border-accent/40 object-cover"
                     />
                     <ChevronDown className="h-4 w-4 text-white/80" />
@@ -214,43 +214,43 @@ const TopNav = () => {
 
           {/* Bottom quick actions */}
           {isAuthenticated && (
-            <div className="border-t border-white/10 px-3 py-2">
+            <div className="border-t border-white/10 px-3 py-1">
               <div className="grid grid-cols-3 gap-2">
                 <Link
                   href="/dashboard/user/deposit"
-                  className="flex items-center justify-center gap-2 rounded-2xl bg-white/[0.04] px-3 py-2 text-xs font-semibold text-white ring-1 ring-white/10 hover:bg-white/[0.06] transition"
+                  className="flex items-center justify-center gap-2 rounded-2xl bg-white/[0.04] px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/10 hover:bg-white/[0.06] transition"
                 >
                   <Image
                     src="/icons/deposit-new.png"
                     alt="deposit"
-                    width={18}
-                    height={18}
+                    width={15}
+                    height={15}
                   />
                   Deposit
                 </Link>
 
                 <Link
                   href="/dashboard/user/withdraw"
-                  className="flex items-center justify-center gap-2 rounded-2xl bg-white/[0.04] px-3 py-2 text-xs font-semibold text-white ring-1 ring-white/10 hover:bg-white/[0.06] transition"
+                  className="flex items-center justify-center gap-2 rounded-2xl bg-white/[0.04] px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/10 hover:bg-white/[0.06] transition"
                 >
                   <Image
                     src="/icons/deposit.png"
                     alt="withdraw"
-                    width={18}
-                    height={18}
+                    width={15}
+                    height={15}
                   />
                   Withdraw
                 </Link>
 
                 <Link
                   href="/dashboard"
-                  className="flex items-center justify-center gap-2 rounded-2xl bg-white/[0.04] px-3 py-2 text-xs font-semibold text-white ring-1 ring-white/10 hover:bg-white/[0.06] transition"
+                  className="flex items-center justify-center gap-2 rounded-2xl bg-white/[0.04] px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/10 hover:bg-white/[0.06] transition"
                 >
                   <Image
                     src="/icons/profile.png"
                     alt="profile"
-                    width={18}
-                    height={18}
+                    width={15}
+                    height={15}
                   />
                   Profile
                 </Link>

@@ -119,10 +119,10 @@ const SportsGames = () => {
         <span className="text-white">খেলাধুলা</span>
       </h3>
 
-      <Link href={'/category/sports'} >
+      <Link href={'/category/sports'} className="relative">
         <Image
           src={
-            "https://images.9734232.com/prod-images/game_icon/betbdt2f4/bigImage/gcs__SPORTS-BTI_1739948616233.webp"
+            "/sports.jpg"
           }
           alt="Sports"
           width={0}
@@ -130,6 +130,7 @@ const SportsGames = () => {
           className="w-full object-cover"
           unoptimized
         />
+        
       </Link>
     </div>
   );

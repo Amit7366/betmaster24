@@ -550,9 +550,9 @@ export default function DepositPage() {
                           key={promo.code}
                           className={cn(
                             "relative rounded-2xl border p-4 text-left transition",
-                            "border-white/10 bg-white/[0.04] hover:border-white/20",
+                            "border-white/10  hover:border-white/20",
                             isActive &&
-                              "border-accent/60 bg-accent/15 ring-1 ring-accent/25",
+                              "border-accent bg-accent bg-accent/15 ring-1 ring-accent/25",
                             blocked &&
                               "opacity-60 cursor-not-allowed hover:border-white/10"
                           )}

@@ -131,7 +131,7 @@ export default function VipSlider() {
   };
 
   return (
-    <div className="w-full relative overflow-hidden py-2 mt-16">
+    <div className="w-full relative overflow-hidden py-2 mt-4">
       <div
         ref={sliderRef}
         onTouchStart={handleTouchStart}
@@ -147,7 +147,7 @@ export default function VipSlider() {
             <img
               src={slide.img}
               alt={slide.alt}
-              className="w-full h-[175px] object-cover"
+              className="w-full h-[220px] object-cover"
             />
           </div>
         ))}
