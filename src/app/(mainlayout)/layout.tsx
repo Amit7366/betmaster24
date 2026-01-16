@@ -9,10 +9,13 @@ import { useAuth } from "@/redux/hook/useAuth";
 import { Toaster } from "sonner";
 import { useEffect, useState } from "react";
 import PromoModals from "@/components/modal/PromoModals";
+import SpinToWinModal from "@/components/spin/SpinToWinModal";
 
 export default function MainLayout({ children }: { children: React.ReactNode }) {
-  const { isAuthenticated } = useAuth();
+  const { user,isAuthenticated } = useAuth();
   const [mounted, setMounted] = useState(false);
+
+  console.log(user)
 
   useEffect(() => {
     setMounted(true); // prevent mismatch during hydration
@@ -37,6 +40,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
           <BottomNav />
           <SocialFloatingBar />
           <PromoModals/>
+          <SpinToWinModal />
         </div>
       </SidebarProvider>
     </div>

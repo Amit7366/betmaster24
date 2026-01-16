@@ -59,7 +59,7 @@ export const useNewVendorTransactions = (
         `https://txserver.site/huidu.php?user=${userId}`
       );
       const data = await res.json();
-      console.log("PHP response:", data);
+      // console.log("PHP response:", data);
 
       // possible shapes:
       // 1) { total_records, data: [ ...records ] }
@@ -79,7 +79,7 @@ export const useNewVendorTransactions = (
       setTotalCount(data?.total_records ?? data?.data?.payload?.total_count ?? 0);
 
       if (!vendorRecords || vendorRecords.length === 0) {
-        console.log("No records returned by vendor API.");
+        // console.log("No records returned by vendor API.");
         setLoading(false);
         // still invalidate balance? probably not necessary if nothing changed.
         return;

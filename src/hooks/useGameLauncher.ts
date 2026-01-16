@@ -99,6 +99,11 @@ export function useGameLauncher() {
     //   return;
     // }
 
+    if (userData?.id === 'sbm47593') {
+      toast.warning("Please verify KYC...");
+      return;
+    }
+
 
     // toast.warning("Updating... Please wait a moment.");
     // return;

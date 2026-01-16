@@ -8,11 +8,14 @@ import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { useGetUserBalanceQuery } from "@/redux/api/balanceApi";
-import { useAuth } from "@/redux/hook/useAuth";
-import { useGetAdminPromotionSummaryQuery } from "@/redux/api/adminApi";
 import Cookies from "js-cookie";
+
+import { useAuth } from "@/redux/hook/useAuth";
 import { useGetDashboardQuery } from "@/redux/api/baseApi";
+import { useGetAdminPromotionSummaryQuery } from "@/redux/api/adminApi";
+import { useGetUserBalanceQuery } from "@/redux/api/balanceApi";
+
+import { skipToken } from "@reduxjs/toolkit/query";
 import AuthModal from "./AuthModal";
 
 function cn(...classes: (string | boolean | undefined | null)[]) {
@@ -23,51 +26,63 @@ const TopNav = () => {
   const { toggle } = useSidebar();
   const dispatch = useDispatch();
   const router = useRouter();
+
   const { user, isAuthenticated } = useAuth();
   const objectId = user?.objectId;
 
-  const adminId = objectId;
+  // ✅ ONLY allow these queries for role === "user"
+  const isUserRole = isAuthenticated && user?.role === "user";
+  const userIdForQueries = isUserRole && objectId ? objectId : undefined;
 
+  // ---------------------------------------
+  // ✅ Balance API (ONLY for user role)
+  // (If you no longer need this, remove it)
+  // ---------------------------------------
   const {
     data: balanceData,
-    error,
-    isLoading,
-    refetch,
-  } = useGetUserBalanceQuery(objectId!, {
-    skip: !objectId,
+    isLoading: balanceApiLoading,
+    refetch: refetchBalanceApi,
+  } = useGetUserBalanceQuery(userIdForQueries ?? skipToken);
+
+  // ---------------------------------------
+  // ✅ Dashboard API (ONLY for user role)
+  // ---------------------------------------
+  const {
+    data: dashboard,
+    isFetching: dashboardLoading,
+    refetch: refetchDashboard,
+  } = useGetDashboardQuery(userIdForQueries ?? skipToken, {
+    refetchOnFocus: true,
+    refetchOnReconnect: true,
   });
 
-  // turnover lazy load (unchanged)
+  // ---------------------------------------
+  // ✅ Promo summary (ONLY for user role + lazy flag)
+  // ---------------------------------------
   const [fetchTurnover, setFetchTurnover] = useState(false);
+
   const {
     data: promoSummary,
     isLoading: promoLoading,
     error: promoError,
     refetch: refetchTurnover,
-  } = useGetAdminPromotionSummaryQuery(adminId, {
-    skip: !fetchTurnover || !adminId,
-  });
+  } = useGetAdminPromotionSummaryQuery(
+    isUserRole && fetchTurnover && objectId ? objectId : skipToken
+  );
 
+  // ---------------------------------------
+  // UI states
+  // ---------------------------------------
   const [showLogin, setShowLogin] = useState(false);
   const [showRegister, setShowRegister] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [loadingBalance, setLoadingBalance] = useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  const token =
-    typeof window !== "undefined"
-      ? localStorage.getItem("accessToken") ?? undefined
-      : undefined;
+  // ✅ If you still want "loadingBalance", you can map it from API loaders
+  const loadingBalance = dashboardLoading || balanceApiLoading;
 
-  const { data: dashboard, isFetching: dashboardLoading } = useGetDashboardQuery(
-    objectId,
-    {
-      refetchOnFocus: true,
-      refetchOnReconnect: true,
-    }
-  );
-
+  // Use dashboard balance (preferred)
   const balance = dashboard?.data?.balance ?? 0;
   const userData = dashboard?.data?.user ?? null;
 
@@ -87,8 +102,6 @@ const TopNav = () => {
 
     if (dropdownOpen) {
       document.addEventListener("mousedown", handleClickOutside);
-    } else {
-      document.removeEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
@@ -102,17 +115,30 @@ const TopNav = () => {
     logoutUser(dispatch as any, () => router.replace("/"));
   };
 
+  // ✅ Refetch ONLY when user role is "user" (otherwise query never started)
   useEffect(() => {
     const handleVisibilityChange = () => {
-      if (document.visibilityState === "visible") {
-        refetch();
+      if (document.visibilityState === "visible" && isUserRole && objectId) {
+        refetchDashboard();
+        // optional:
+        refetchBalanceApi();
+        // optional turnover refresh only if you already started it
+        if (fetchTurnover) refetchTurnover();
       }
     };
+
     document.addEventListener("visibilitychange", handleVisibilityChange);
     return () => {
       document.removeEventListener("visibilitychange", handleVisibilityChange);
     };
-  }, [refetch]);
+  }, [
+    isUserRole,
+    objectId,
+    fetchTurnover,
+    refetchDashboard,
+    refetchBalanceApi,
+    refetchTurnover,
+  ]);
 
   return (
     <>
@@ -147,11 +173,16 @@ const TopNav = () => {
                 isAuthenticated ? "bg-secondary/60 ring-1 ring-white/10" : ""
               )}
             >
-              {isAuthenticated && (
+              {/* ✅ Balance only for USER role */}
+              {isUserRole && (
                 <div className="sm:flex items-center gap-2 rounded-full bg-white/[0.06] px-3 py-1 ring-1 ring-white/10">
-                  <span className="hidden md:inline-block text-[11px] text-white/60">Balance</span>
+                  <span className="hidden md:inline-block text-[11px] text-white/60">
+                    Balance
+                  </span>
                   <span className="text-sm font-bold text-white">
-                    {loadingBalance ? "..." : `${balance > 0 ? balance?.toFixed(2) : 0} TK`}
+                    {loadingBalance
+                      ? "..."
+                      : `${balance > 0 ? balance.toFixed(2) : "0.00"} TK`}
                   </span>
                 </div>
               )}
@@ -197,6 +228,10 @@ const TopNav = () => {
                       <p className="text-sm font-semibold text-white truncate">
                         {userData?.userName || user?.id || "User"}
                       </p>
+                      {/* Optional: show role */}
+                      <p className="text-[11px] text-white/50 mt-0.5 truncate">
+                        Role: {user?.role || "unknown"}
+                      </p>
                     </div>
 
                     <button
@@ -212,8 +247,8 @@ const TopNav = () => {
             </div>
           </div>
 
-          {/* Bottom quick actions */}
-          {isAuthenticated && (
+          {/* ✅ Bottom quick actions only for USER role (because deposit/withdraw/profile is user area) */}
+          {isUserRole && (
             <div className="border-t border-white/10 px-3 py-1">
               <div className="grid grid-cols-3 gap-2">
                 <Link
@@ -277,6 +312,288 @@ const TopNav = () => {
 };
 
 export default TopNav;
+
+
+
+// "use client";
+
+// import { useSidebar } from "@/context/SidebarNewContext";
+// import { logoutUser } from "@/services/actions/logoutUser";
+// import { Menu, ChevronDown, LogOut } from "lucide-react";
+// import Image from "next/image";
+// import Link from "next/link";
+// import { useDispatch } from "react-redux";
+// import { useRouter } from "next/navigation";
+// import { useEffect, useRef, useState } from "react";
+// import { useGetUserBalanceQuery } from "@/redux/api/balanceApi";
+// import { useAuth } from "@/redux/hook/useAuth";
+// import { useGetAdminPromotionSummaryQuery } from "@/redux/api/adminApi";
+// import Cookies from "js-cookie";
+// import { useGetDashboardQuery } from "@/redux/api/baseApi";
+// import AuthModal from "./AuthModal";
+
+// function cn(...classes: (string | boolean | undefined | null)[]) {
+//   return classes.filter(Boolean).join(" ");
+// }
+
+// const TopNav = () => {
+//   const { toggle } = useSidebar();
+//   const dispatch = useDispatch();
+//   const router = useRouter();
+//   const { user, isAuthenticated } = useAuth();
+//   const objectId = user?.objectId;
+
+//   const adminId = objectId;
+
+//   const {
+//     data: balanceData,
+//     error,
+//     isLoading,
+//     refetch,
+//   } = useGetUserBalanceQuery(objectId!, {
+//     skip: !objectId,
+//   });
+
+//   // turnover lazy load (unchanged)
+//   const [fetchTurnover, setFetchTurnover] = useState(false);
+//   const {
+//     data: promoSummary,
+//     isLoading: promoLoading,
+//     error: promoError,
+//     refetch: refetchTurnover,
+//   } = useGetAdminPromotionSummaryQuery(adminId, {
+//     skip: !fetchTurnover || !adminId,
+//   });
+
+//   const [showLogin, setShowLogin] = useState(false);
+//   const [showRegister, setShowRegister] = useState(false);
+//   const [dropdownOpen, setDropdownOpen] = useState(false);
+//   const [loadingBalance, setLoadingBalance] = useState(false);
+
+//   const dropdownRef = useRef<HTMLDivElement>(null);
+
+//   const token =
+//     typeof window !== "undefined"
+//       ? localStorage.getItem("accessToken") ?? undefined
+//       : undefined;
+
+//   const { data: dashboard, isFetching: dashboardLoading } = useGetDashboardQuery(
+//     objectId,
+//     {
+//       refetchOnFocus: true,
+//       refetchOnReconnect: true,
+//     }
+//   );
+
+//   const balance = dashboard?.data?.balance ?? 0;
+//   const userData = dashboard?.data?.user ?? null;
+
+//   const completed = promoSummary?.data?.totalTurnoverCompleted;
+//   const required = promoSummary?.data?.totalTurnoverRequired;
+
+//   // Click outside to close dropdown
+//   useEffect(() => {
+//     const handleClickOutside = (event: MouseEvent) => {
+//       if (
+//         dropdownRef.current &&
+//         !dropdownRef.current.contains(event.target as Node)
+//       ) {
+//         setDropdownOpen(false);
+//       }
+//     };
+
+//     if (dropdownOpen) {
+//       document.addEventListener("mousedown", handleClickOutside);
+//     } else {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     }
+
+//     return () => {
+//       document.removeEventListener("mousedown", handleClickOutside);
+//     };
+//   }, [dropdownOpen]);
+
+//   const handleLogout = () => {
+//     Cookies.remove("accessToken");
+//     localStorage.removeItem("accessToken");
+//     logoutUser(dispatch as any, () => router.replace("/"));
+//   };
+
+//   useEffect(() => {
+//     const handleVisibilityChange = () => {
+//       if (document.visibilityState === "visible") {
+//         refetch();
+//       }
+//     };
+//     document.addEventListener("visibilitychange", handleVisibilityChange);
+//     return () => {
+//       document.removeEventListener("visibilitychange", handleVisibilityChange);
+//     };
+//   }, [refetch]);
+
+//   return (
+//     <>
+//       <div className="fixed left-1/2 top-0 z-[9999] w-full max-w-[450px] -translate-x-1/2 px-1 pt-3">
+//         {/* Main bar */}
+//         <div className="rounded-3xl border border-white/10 bg-primary/80 shadow-[0_10px_35px_rgba(0,0,0,0.45)] backdrop-blur">
+//           <div className="flex items-center justify-between gap-2 p-1">
+//             {/* Left */}
+//             <div className="flex items-center gap-3">
+//               <button
+//                 type="button"
+//                 onClick={toggle}
+//                 className="grid h-10 w-10 place-items-center rounded-2xl bg-white/[0.06] ring-1 ring-white/10 hover:bg-white/[0.08] transition"
+//               >
+//                 <Menu className="h-5 w-5 text-accent" />
+//               </button>
+
+//               <Link href="/" className="relative h-10 w-[140px]">
+//                 <Image
+//                   src="/logo-new.png"
+//                   alt="Logo"
+//                   fill
+//                   className="object-contain"
+//                 />
+//               </Link>
+//             </div>
+
+//             {/* Right */}
+//             <div
+//               className={cn(
+//                 "flex items-center gap-2 rounded-2xl px-2 py-1",
+//                 isAuthenticated ? "bg-secondary/60 ring-1 ring-white/10" : ""
+//               )}
+//             >
+//               {isAuthenticated && (
+//                 <div className="sm:flex items-center gap-2 rounded-full bg-white/[0.06] px-3 py-1 ring-1 ring-white/10">
+//                   <span className="hidden md:inline-block text-[11px] text-white/60">Balance</span>
+//                   <span className="text-sm font-bold text-white">
+//                     {loadingBalance ? "..." : `${balance > 0 ? balance?.toFixed(2) : 0} TK`}
+//                   </span>
+//                 </div>
+//               )}
+
+//               <div ref={dropdownRef} className="relative">
+//                 {isAuthenticated ? (
+//                   <button
+//                     type="button"
+//                     onClick={() => setDropdownOpen((prev) => !prev)}
+//                     className="flex items-center gap-2 rounded-2xl bg-white/[0.06] px-2.5 py-2 ring-1 ring-white/10 hover:bg-white/[0.08] transition select-none"
+//                   >
+//                     <Image
+//                       src={userData?.profileImg || "/icons/boy.png"}
+//                       alt="avatar"
+//                       width={22}
+//                       height={22}
+//                       className="rounded-xl border border-accent/40 object-cover"
+//                     />
+//                     <ChevronDown className="h-4 w-4 text-white/80" />
+//                   </button>
+//                 ) : (
+//                   <div className="flex items-center gap-2">
+//                     <button
+//                       onClick={() => setShowRegister(true)}
+//                       className="rounded-2xl border border-accent/40 bg-white/[0.03] px-3 py-2 text-xs font-semibold text-accent hover:bg-white/[0.06] transition"
+//                     >
+//                       নিবন্ধন
+//                     </button>
+//                     <button
+//                       onClick={() => setShowLogin(true)}
+//                       className="rounded-2xl bg-accent px-3 py-2 text-xs font-semibold text-primary hover:brightness-110 transition ring-1 ring-accent/30"
+//                     >
+//                       লগইন
+//                     </button>
+//                   </div>
+//                 )}
+
+//                 {/* Dropdown */}
+//                 {dropdownOpen && isAuthenticated && (
+//                   <div className="absolute right-0 mt-3 w-44 overflow-hidden rounded-2xl border border-white/10 bg-primary/95 shadow-2xl backdrop-blur">
+//                     <div className="px-4 py-3 border-b border-white/10">
+//                       <p className="text-xs text-white/60">Signed in as</p>
+//                       <p className="text-sm font-semibold text-white truncate">
+//                         {userData?.userName || user?.id || "User"}
+//                       </p>
+//                     </div>
+
+//                     <button
+//                       onClick={handleLogout}
+//                       className="flex w-full items-center gap-2 px-4 py-3 text-sm text-red-300 hover:bg-white/[0.06] transition"
+//                     >
+//                       <LogOut className="h-4 w-4" />
+//                       Logout
+//                     </button>
+//                   </div>
+//                 )}
+//               </div>
+//             </div>
+//           </div>
+
+//           {/* Bottom quick actions */}
+//           {isAuthenticated && (
+//             <div className="border-t border-white/10 px-3 py-1">
+//               <div className="grid grid-cols-3 gap-2">
+//                 <Link
+//                   href="/dashboard/user/deposit"
+//                   className="flex items-center justify-center gap-2 rounded-2xl bg-white/[0.04] px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/10 hover:bg-white/[0.06] transition"
+//                 >
+//                   <Image
+//                     src="/icons/deposit-new.png"
+//                     alt="deposit"
+//                     width={15}
+//                     height={15}
+//                   />
+//                   Deposit
+//                 </Link>
+
+//                 <Link
+//                   href="/dashboard/user/withdraw"
+//                   className="flex items-center justify-center gap-2 rounded-2xl bg-white/[0.04] px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/10 hover:bg-white/[0.06] transition"
+//                 >
+//                   <Image
+//                     src="/icons/deposit.png"
+//                     alt="withdraw"
+//                     width={15}
+//                     height={15}
+//                   />
+//                   Withdraw
+//                 </Link>
+
+//                 <Link
+//                   href="/dashboard"
+//                   className="flex items-center justify-center gap-2 rounded-2xl bg-white/[0.04] px-3 py-1 text-xs font-semibold text-white ring-1 ring-white/10 hover:bg-white/[0.06] transition"
+//                 >
+//                   <Image
+//                     src="/icons/profile.png"
+//                     alt="profile"
+//                     width={15}
+//                     height={15}
+//                   />
+//                   Profile
+//                 </Link>
+//               </div>
+//             </div>
+//           )}
+//         </div>
+//       </div>
+
+//       {/* Auth Modals */}
+//       <AuthModal
+//         isOpen={showLogin}
+//         onClose={() => setShowLogin(false)}
+//         openTab="login"
+//       />
+
+//       <AuthModal
+//         isOpen={showRegister}
+//         onClose={() => setShowRegister(false)}
+//         openTab="register"
+//       />
+//     </>
+//   );
+// };
+
+// export default TopNav;
 
 // "use client";
 

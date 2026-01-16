@@ -50,11 +50,11 @@ export function useDashboardData(id?: string, token?: string) {
           return; // success
         } catch (err: any) {
           if (i === attempts) {
-            toast.error(
-              err?.name === "AbortError"
-                ? "Request timed out. Try again. dashboard data"
-                : err?.message || "Failed to load dashboard data"
-            );
+            // toast.error(
+            //   err?.name === "AbortError"
+            //     ? "Request timed out. Try again. dashboard data"
+            //     : err?.message || "Failed to load dashboard data"
+            // );
           } else {
             // small backoff before retry
             await sleep(600 * i);

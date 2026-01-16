@@ -125,7 +125,7 @@ const NormalUsersTable = () => {
     const token = getFromLocalStorage("accessToken");
     const result = await Swal.fire({
       title: "Are you sure?",
-      text: "You are about to give 70 BDT as signup bonus.",
+      text: "You are about to give 50 BDT as signup bonus.",
       icon: "question",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",

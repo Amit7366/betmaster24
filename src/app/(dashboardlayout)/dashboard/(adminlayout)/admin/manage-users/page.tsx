@@ -392,7 +392,7 @@ const NormalUsersTable = () => {
                             Book For Call
                           </button> */}
 
-                          <button
+                          {/* <button
                             disabled={user?.signupBonusGiven}
                             onClick={() => handleGiveSignupBonus(user.user)}
                             className={[
@@ -403,7 +403,7 @@ const NormalUsersTable = () => {
                             ].join(" ")}
                           >
                             Give Signup Bonus
-                          </button>
+                          </button> */}
 
                           <button
                             onClick={() => openDetails(user)}
