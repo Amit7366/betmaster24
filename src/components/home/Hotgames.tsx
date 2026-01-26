@@ -193,72 +193,72 @@ const Hotgames = () => {
         },
       ],
     },
-    {
-      title: "JDB",
-      icon: Sparkles,
-      games: [
-        {
-          _id: "69501e0f1d277a54b2646ecd",
-          game_code: "5aa01f1fb8c92635c69d399deda516b2",
-          game_image:
-            "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/Xmas-Tales.png",
-          game_name: "Xmas Tales",
-          game_type: "slot",
-          platform: "digital",
-          provider: "cq9",
-        },
-        {
-          _id: "69501e0f1d277a54b2646ecc",
-          game_code: "bc6315b1d328ba2a6719d3ce54ecfc6d",
-          game_image:
-            "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/Beanstalk.png",
-          game_name: "Beanstalk",
-          game_type: "slot",
-          platform: "digital",
-          provider: "cq9",
-        },
-        {
-          _id: "69501e0f1d277a54b2646ecb",
-          game_code: "32b8e2de14d2dc9fa7de9e60c39181e2",
-          game_image:
-            "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/Hong-Kong-Flavor.png",
-          game_name: "Hong Kong Flavor",
-          game_type: "slot",
-          platform: "digital",
-          provider: "cq9",
-        },
-        {
-          _id: "69501e0f1d277a54b2646eca",
-          game_code: "8797a9b3500b2cc510aab54f8f65c9b0",
-          game_image:
-            "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/JUNGLE-ISLAND.png",
-          game_name: "JUNGLE ISLAND",
-          game_type: "slot",
-          platform: "digital",
-          provider: "cq9",
-        },
-        {
-          _id: "69501e0f1d277a54b2646ec9",
-          game_code: "d9d86e86284357426995e080250e2662",
-          game_image:
-            "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/Cirque-de-fous.png",
-          game_name: "Cirque de fous",
-          game_type: "slot",
-          platform: "digital",
-          provider: "cq9",
-        },
-        {
-          _id: "69501e0f1d277a54b2646ec8",
-          game_code: "7e64a66d0d74af9f173ab913576b61ce",
-          game_image:
-            "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/HAPPY-BUDDHA.png",
-          game_name: "HAPPY BUDDHA",
-          game_type: "slot",
-          platform: "digital",
-          provider: "cq9",
-        },
-      ],
-    },
+    // {
+    //   title: "JDB",
+    //   icon: Sparkles,
+    //   games: [
+    //     {
+    //       _id: "69501e0f1d277a54b2646ecd",
+    //       game_code: "5aa01f1fb8c92635c69d399deda516b2",
+    //       game_image:
+    //         "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/Xmas-Tales.png",
+    //       game_name: "Xmas Tales",
+    //       game_type: "slot",
+    //       platform: "digital",
+    //       provider: "cq9",
+    //     },
+    //     {
+    //       _id: "69501e0f1d277a54b2646ecc",
+    //       game_code: "bc6315b1d328ba2a6719d3ce54ecfc6d",
+    //       game_image:
+    //         "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/Beanstalk.png",
+    //       game_name: "Beanstalk",
+    //       game_type: "slot",
+    //       platform: "digital",
+    //       provider: "cq9",
+    //     },
+    //     {
+    //       _id: "69501e0f1d277a54b2646ecb",
+    //       game_code: "32b8e2de14d2dc9fa7de9e60c39181e2",
+    //       game_image:
+    //         "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/Hong-Kong-Flavor.png",
+    //       game_name: "Hong Kong Flavor",
+    //       game_type: "slot",
+    //       platform: "digital",
+    //       provider: "cq9",
+    //     },
+    //     {
+    //       _id: "69501e0f1d277a54b2646eca",
+    //       game_code: "8797a9b3500b2cc510aab54f8f65c9b0",
+    //       game_image:
+    //         "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/JUNGLE-ISLAND.png",
+    //       game_name: "JUNGLE ISLAND",
+    //       game_type: "slot",
+    //       platform: "digital",
+    //       provider: "cq9",
+    //     },
+    //     {
+    //       _id: "69501e0f1d277a54b2646ec9",
+    //       game_code: "d9d86e86284357426995e080250e2662",
+    //       game_image:
+    //         "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/Cirque-de-fous.png",
+    //       game_name: "Cirque de fous",
+    //       game_type: "slot",
+    //       platform: "digital",
+    //       provider: "cq9",
+    //     },
+    //     {
+    //       _id: "69501e0f1d277a54b2646ec8",
+    //       game_code: "7e64a66d0d74af9f173ab913576b61ce",
+    //       game_image:
+    //         "https://huidu-bucket.s3.ap-southeast-1.amazonaws.com/api/cq9/HAPPY-BUDDHA.png",
+    //       game_name: "HAPPY BUDDHA",
+    //       game_type: "slot",
+    //       platform: "digital",
+    //       provider: "cq9",
+    //     },
+    //   ],
+    // },
   ];
 
   const { handlePlay, launching } = useGameLauncher();

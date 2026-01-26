@@ -234,14 +234,14 @@ const DashboardCard = () => {
                 </div>
               </div>
 
-              <div className="mt-3 flex items-center gap-3">
+              <div className="mt-3 flex flex-wrap justify-center items-center gap-3">
                 <CircularProgress
                   completed={showTurnover ? safeCompleted : 0}
                   required={showTurnover ? safeRequired : 100}
                 />
                 <div className="min-w-0">
                   <p className="text-xs text-white/60">Progress</p>
-                  <p className="text-sm font-semibold text-white truncate">
+                  <p className="text-xs font-semibold text-white truncate">
                     {progressText || "—"}
                   </p>
                   {isDone ? (

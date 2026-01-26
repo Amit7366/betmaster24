@@ -1,7 +1,7 @@
 // app/(...)/category/[gametype]/page.tsx
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import SingleGame from "@/components/game/SingleGame";
 import LoadingOverlay from "@/components/ui/Loader";
 import FilterChips from "@/components/ui/FilterChips";
@@ -19,16 +19,25 @@ import { useNewVendorTransactions } from "@/hooks/vendorNew";
 import { useGetUserBalanceQuery } from "@/redux/api/balanceApi";
 import { useSelector } from "react-redux";
 import { RootState } from "@/redux/store";
-import FullScreenLoader from "@/components/shared/FullScreenLoader";
 
 export default function CategoryPage({
   params,
 }: {
   params: { gametype: string };
 }) {
-  const { user, isAuthenticated } = useSelector((s: RootState) => s.auth);
+  const { user } = useSelector((s: RootState) => s.auth);
   const objectId = user?.objectId ?? undefined;
+
+  // URL segment is your category (e.g., "slot", "crash", etc.)
+  const category = params.gametype?.trim();
+
   const [limit, setLimit] = useState(12);
+  const [selectedProvider, setSelectedProvider] = useState<string | null>(null);
+
+  // ✅ Search
+  const [search, setSearch] = useState("");
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const normalizedSearch = search.trim().toLowerCase();
 
   const { data: balanceData, refetch: refetchBalance } = useGetUserBalanceQuery(
     objectId!,
@@ -39,13 +48,10 @@ export default function CategoryPage({
     }
   );
 
-  const { userData, loading: userDataLoading } = useUserData();
-  const { records, loading, error: Vendorerror } = useNewVendorTransactions(userData?.id);
-  // URL segment is your category (e.g., "slot", "crash", etc.)
-  const category = params.gametype?.trim();
-  const [selectedProvider, setSelectedProvider] = useState<string | null>(null);
+  const { userData } = useUserData();
+  const { records } = useNewVendorTransactions(userData?.id);
 
-  // Build the arg object expected by the hook (or skip if no category)
+  // ✅ Build RTK query arg
   const arg = useMemo<GamesByCategoryArg | typeof skipToken>(() => {
     if (!category) return skipToken;
     return selectedProvider
@@ -55,31 +61,77 @@ export default function CategoryPage({
 
   const { data, isLoading, error } = useGetGamesByCategoryQuery(arg);
   const { handlePlay, launching } = useGameLauncher();
+
   const REFRESH_FLAG = "needsBalanceRefresh";
 
+  // ✅ Games list
+  const games = useMemo(() => data?.data ?? [], [data]);
 
+  // ✅ Filtered games (HOOK MUST BE ABOVE RETURNS)
+  const filteredGames = useMemo(() => {
+    if (!normalizedSearch) return games;
 
-  console.log('provider page:', records.length);
+    return games.filter((g: any) => {
+      const name = (
+        g?.name ??
+        g?.title ??
+        g?.gameName ??
+        g?.gameNameEn ??
+        g?.game_name ??
+        ""
+      )
+        .toString()
+        .toLowerCase();
 
+      const providerName = (g?.provider ?? "").toString().toLowerCase();
+
+      return (
+        name.includes(normalizedSearch) ||
+        providerName.includes(normalizedSearch)
+      );
+    });
+  }, [games, normalizedSearch]);
+
+  // ✅ Visible games must slice from filteredGames
+  const visibleGames = useMemo(() => {
+    return filteredGames.slice(0, limit);
+  }, [filteredGames, limit]);
+
+  // ✅ Reset pagination when provider/search changes
+  useEffect(() => {
+    setLimit(12);
+  }, [selectedProvider, search]);
+
+  // ✅ Focus search when category/provider changes
+  useEffect(() => {
+    inputRef.current?.focus();
+  }, [category, selectedProvider]);
+
+  // ✅ ESC clears search
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setSearch("");
+        inputRef.current?.focus();
+      }
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, []);
+
+  // ✅ Refresh balance if flag exists
   useEffect(() => {
     if (typeof window === "undefined" || !objectId) return;
     const flag = localStorage.getItem(REFRESH_FLAG);
     if (flag) {
       localStorage.removeItem(REFRESH_FLAG);
-      //txn chk insert
-      //  (async () => {
-      //   await refetchVendor();
-
-      // })();
       refetchBalance();
-
     }
-  }, [
-    objectId,
-    userData,
-    // refetchVendor, 
-    refetchBalance]);
+  }, [objectId, userData, refetchBalance]);
 
+  // ---------------------------
+  // ✅ RETURNS AFTER ALL HOOKS
+  // ---------------------------
 
   if (!category) {
     return (
@@ -90,11 +142,6 @@ export default function CategoryPage({
   }
 
   if (isLoading) return <LoadingOverlay />;
-
-  const games = data?.data ?? [];
-
-
-  const visibleGames = games.slice(0, limit);
 
   if (error || games.length === 0) {
     return (
@@ -115,35 +162,54 @@ export default function CategoryPage({
         onToggle={setSelectedProvider}
       />
 
-      <div className="relative text-white font-semibold py-2 z-10 w-full flex items-center gap-2">
-        <Gamepad />
-        <span className="text-accent uppercase">
-          {category} {selectedProvider && `- ${selectedProvider}`}
-        </span>
-      </div>
-
-      <div className="grid grid-cols-3 gap-2">
-        {visibleGames.map((game: any) => (
-          <SingleGame
-            key={game._id}
-            game={game}
-            provider={game.provider ?? ""}
-            onPlay={() => handlePlay(game)}
-          />
-        ))}
-      </div>
-      {limit < games.length && (
-        <div className="mt-4 flex justify-center">
-          <button
-            onClick={() => setLimit((p) => p + 12)}
-            className="px-4 py-2 rounded bg-accent text-white"
-          >
-            Show More
-          </button>
+      {/* Header + Search */}
+      <div className="relative z-10 w-full flex flex-col gap-3 py-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-2 font-semibold text-white">
+          <Gamepad />
+          <span className="text-accent uppercase">
+            {category} {selectedProvider && `- ${selectedProvider}`}
+          </span>
         </div>
-      )}
 
+        <input
+          ref={inputRef}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="SEARCH GAME..."
+           className="w-full sm:w-[150px] rounded-lg border border-white/10 bg-black/30 px-3 py-2 text-xs font-bold tracking-widest text-white placeholder:text-white/60 outline-none focus:border-accent"
+        />
+      </div>
+
+      {/* Results */}
+      {filteredGames.length === 0 ? (
+        <div className="mt-10 text-center text-accent font-semibold">
+          No games match your search.
+        </div>
+      ) : (
+        <>
+          <div className="grid grid-cols-3 gap-2">
+            {visibleGames.map((game: any) => (
+              <SingleGame
+                key={game._id}
+                game={game}
+                provider={game.provider ?? ""}
+                onPlay={() => handlePlay(game)}
+              />
+            ))}
+          </div>
+
+          {limit < filteredGames.length && (
+            <div className="mt-4 flex justify-center">
+              <button
+                onClick={() => setLimit((p) => p + 12)}
+                className="px-4 py-2 rounded bg-accent text-white"
+              >
+                Show More
+              </button>
+            </div>
+          )}
+        </>
+      )}
     </section>
-    // <FullScreenLoader/>
   );
 }

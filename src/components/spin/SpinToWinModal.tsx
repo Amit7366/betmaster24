@@ -1,5 +1,6 @@
 "use client";
 
+import { useAuth } from "@/redux/hook/useAuth";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 // -------------------- Types --------------------
@@ -40,7 +41,7 @@ function buildWheelBackground(slices: number) {
 
   // add subtle “slice shine”
   return `conic-gradient(${parts.join(
-    ","
+    ",",
   )}), radial-gradient(circle at 30% 30%, rgba(255,255,255,0.35), rgba(255,255,255,0) 55%)`;
 }
 
@@ -50,19 +51,71 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 
 function useDailyModal() {
   const [open, setOpen] = useState(false);
+  const { user, isAuthenticated } = useAuth();
+  // console.log(user);
+  // useEffect(() => {
+  //   if (!user) return;
+  //   const raw = localStorage.getItem(MODAL_KEY);
+  //   const last = raw ? Number(raw) : 0;
+  //   const now = Date.now();
 
+  //   if (!last || now - last >= DAY_MS) {
+  //     setOpen(true);
+  //     localStorage.setItem(MODAL_KEY, String(now));
+  //   }
+  // }, []);
   useEffect(() => {
-    const raw = localStorage.getItem(MODAL_KEY);
-    const last = raw ? Number(raw) : 0;
-    const now = Date.now();
+    if (!isAuthenticated || !user) return;
 
-    if (!last || now - last >= DAY_MS) {
-      setOpen(true);
-      localStorage.setItem(MODAL_KEY, String(now));
-    }
-  }, []);
+    const controller = new AbortController();
 
-  return { open, setOpen };
+    const run = async () => {
+      try {
+        // ✅ get token (use your real token source)
+        const token =
+          localStorage.getItem("token") ||
+          localStorage.getItem("accessToken") ||
+          "";
+
+        if (!token) return;
+
+        const userId = user?.id; // ✅ adjust based on your auth user shape
+        if (!userId) return;
+
+        const res = await fetch(`/api/spin/status/${userId}`, {
+          method: "GET",
+          headers: {
+            Authorization: `${token}`,
+          },
+          signal: controller.signal,
+          cache: "no-store",
+        });
+
+        const json = await res.json();
+
+        if (!res.ok || !json?.success) return;
+
+        // ✅ server decides if user can spin
+        if (json?.data?.canSpin) {
+          console.log(json?.data);
+          setOpen(true);
+        } else {
+          setOpen(false);
+        }
+
+        // optional: you can store status if you want
+        // setStatus(json.data)
+      } catch (err) {
+        // ignore abort errors
+        if ((err as any)?.name !== "AbortError") console.error(err);
+      }
+    };
+
+    run();
+
+    return () => controller.abort();
+  }, [isAuthenticated, user, setOpen]);
+  return { open, setOpen, user };
 }
 
 // -------------------- Main Component --------------------
@@ -71,7 +124,7 @@ export default function SpinToWinModal() {
   const [spinning, setSpinning] = useState(false);
   const [result, setResult] = useState<Prize | null>(null);
   const [error, setError] = useState<string | null>(null);
-
+  const { user, isAuthenticated } = useAuth();
   // ✅ Put your wheel values here (same order as you want on wheel)
   const PRIZES: Prize[] = useMemo(
     () => [
@@ -83,7 +136,7 @@ export default function SpinToWinModal() {
       { value: 22, label: "22" },
       { value: 25, label: "25", isBig: true },
     ],
-    []
+    [],
   );
 
   const slices = PRIZES.length;
@@ -140,7 +193,9 @@ export default function SpinToWinModal() {
       });
 
       const data = await res.json();
-      console.log(data);
+      data.userId = user?.id;
+
+      // console.log(data);
       if (!res.ok || !data.ok) {
         if (data?.reason === "COOLDOWN") {
           const when = new Date(data.nextAllowedAt).toLocaleString();
@@ -150,6 +205,48 @@ export default function SpinToWinModal() {
       }
 
       const prize: Prize = data.prize;
+
+      // 2) CLIENT: call the proxy claim API right after spin result
+      // Put this AFTER your cooldown checks pass and AFTER `const prize: Prize = data.prize;`
+
+      // ✅ attach userId for claim
+      const userId = user?.id || user?._id;
+      if (!userId) throw new Error("User not found");
+
+      // ✅ token (use your real source)
+      const token =
+        localStorage.getItem("token") ||
+        localStorage.getItem("accessToken") ||
+        "";
+      if (!token) throw new Error("Missing token");
+
+      // ✅ spinWinAmount: if your spin api returns `data.prize` as object -> use data.prize.value
+      // if it's already a number -> use data.prize
+      const spinWinAmount =
+        typeof data?.prize === "number" ? data.prize : data?.prize?.value;
+
+      if (!spinWinAmount) throw new Error("Spin amount missing");
+
+      // ✅ hit CLAIM (your proxy route)
+      const claimRes = await fetch("/api/spin/claim", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${token}`,
+        },
+        body: JSON.stringify({
+          id: userId,
+          spinWinAmount,
+        }),
+      });
+
+      const claimJson = await claimRes.json();
+      if (!claimRes.ok || claimJson?.success === false) {
+        throw new Error(claimJson?.message || "Claim failed");
+      }
+
+      // ✅ optional: log / store claim response
+      console.log("✅ Spin claimed:", claimJson);
 
       // -------------------------------
       // ✅ Accurate landing math
@@ -251,10 +348,12 @@ export default function SpinToWinModal() {
                 </span>
               </div>
               <h2 className="mt-2 text-xl font-extrabold tracking-tight text-white">
-                Spin &amp; Win
+                Spin &amp; Win{" "}
+                
               </h2>
               <p className="mt-1 text-sm text-white/70">
-                One spin every 24 hours. Good luck!
+                One spin every 24 hours. Good luck!{" "}
+                
               </p>
             </div>
 
@@ -338,44 +437,46 @@ export default function SpinToWinModal() {
                     />
 
                     {/* Labels (rotate with wheel, stay upright) */}
-                   {PRIZES.map((p, i) => {
-  const angle = i * sliceAngle + sliceAngle / 2;
+                    {PRIZES.map((p, i) => {
+                      const angle = i * sliceAngle + sliceAngle / 2;
 
-  // ✅ bring labels closer to center (reduce this if still far)
-  const radius = 96; // try 90-102
+                      // ✅ bring labels closer to center (reduce this if still far)
+                      const radius = 96; // try 90-102
 
-  return (
-    <div
-      key={p.value}
-      className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
-      style={{
-        // ✅ now perfectly centered BEFORE rotating/translating
-        transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(-${radius}px)`,
-        transformOrigin: "center",
-      }}
-    >
-      <div
-        className="text-center font-black tracking-tight"
-        style={{
-          // ✅ tangent-like direction (same as screenshot)
-          transform: "rotate(90deg)",
+                      return (
+                        <div
+                          key={p.value}
+                          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2"
+                          style={{
+                            // ✅ now perfectly centered BEFORE rotating/translating
+                            transform: `translate(-50%, -50%) rotate(${angle}deg) translateY(-${radius}px)`,
+                            transformOrigin: "center",
+                          }}
+                        >
+                          <div
+                            className="text-center font-black tracking-tight"
+                            style={{
+                              // ✅ tangent-like direction (same as screenshot)
+                              transform: "rotate(90deg)",
 
-          width: 76,
-          fontSize: 18,
-          lineHeight: "20px",
+                              width: 76,
+                              fontSize: 18,
+                              lineHeight: "20px",
 
-          color: "#fff",
-          WebkitTextStroke: "1.2px rgba(0,0,0,0.35)",
-          textShadow:
-            "0 3px 0 rgba(0,0,0,0.40), 0 10px 18px rgba(0,0,0,0.45)",
-        }}
-      >
-        {p.value} <span style={{ fontSize: 14, opacity: 0.95 }}>TK</span>
-      </div>
-    </div>
-  );
-})}
-
+                              color: "#fff",
+                              WebkitTextStroke: "1.2px rgba(0,0,0,0.35)",
+                              textShadow:
+                                "0 3px 0 rgba(0,0,0,0.40), 0 10px 18px rgba(0,0,0,0.45)",
+                            }}
+                          >
+                            {p.value}{" "}
+                            <span style={{ fontSize: 14, opacity: 0.95 }}>
+                              TK
+                            </span>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
 
                   {/* Gold hub (center) */}

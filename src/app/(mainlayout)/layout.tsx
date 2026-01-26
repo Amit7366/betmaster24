@@ -15,7 +15,7 @@ export default function MainLayout({ children }: { children: React.ReactNode }) 
   const { user,isAuthenticated } = useAuth();
   const [mounted, setMounted] = useState(false);
 
-  console.log(user)
+  // console.log(user)
 
   useEffect(() => {
     setMounted(true); // prevent mismatch during hydration

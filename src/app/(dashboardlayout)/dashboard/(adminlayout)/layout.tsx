@@ -91,7 +91,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       {/* Sidebar */}
       <aside
         ref={sidebarRef}
-        className={`fixed md:sticky md:top-0 h-full md:h-screen w-64 bg-white shadow-md z-30 transform transition-transform duration-300 ease-in-out
+        className={`fixed md:sticky md:top-0 h-screen md:h-screen w-64 overflow-y-auto bg-white shadow-md z-30 transform transition-transform duration-300 ease-in-out
         ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         } md:translate-x-0 md:block`}

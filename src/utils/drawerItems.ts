@@ -69,6 +69,16 @@ export const drawerItems = (role: UserRole): DrawerItems[] => {
           icon: React.createElement(ArrowLeftRight, { className: "w-6 h-6" }),
         },
         {
+          name: "User Bet Summary",
+          path: `/dashboard/${role}/bet-summary`,
+          icon: React.createElement(ArrowLeftRight, { className: "w-6 h-6" }),
+        },
+        {
+          name: "High Balance",
+          path: `/dashboard/${role}/high-balance`,
+          icon: React.createElement(ArrowLeftRight, { className: "w-6 h-6" }),
+        },
+        {
           name: "My Customers",
           path: `/dashboard/${role}/my-customers`,
           icon: React.createElement(ArrowLeftRight, { className: "w-6 h-6" }),
@@ -126,6 +136,26 @@ export const drawerItems = (role: UserRole): DrawerItems[] => {
         {
           name: "High Balance",
           path: `/dashboard/${role}/high-balance`,
+          icon: React.createElement(ArrowLeftRight, { className: "w-6 h-6" }),
+        },
+        {
+          name: "Retantaion",
+          path: `/dashboard/${role}/retention`,
+          icon: React.createElement(ArrowLeftRight, { className: "w-6 h-6" }),
+        },
+        {
+          name: "Retantaion List",
+          path: `/dashboard/${role}/retention-list`,
+          icon: React.createElement(ArrowLeftRight, { className: "w-6 h-6" }),
+        },
+        {
+          name: "Non Depositer",
+          path: `/dashboard/${role}/no-deposit-balance`,
+          icon: React.createElement(ArrowLeftRight, { className: "w-6 h-6" }),
+        },
+        {
+          name: "Non Depositer List",
+          path: `/dashboard/${role}/no-deposit-list`,
           icon: React.createElement(ArrowLeftRight, { className: "w-6 h-6" }),
         },
 

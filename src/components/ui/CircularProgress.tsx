@@ -10,7 +10,7 @@ interface CircularProgressProps {
 const CircularProgress: React.FC<CircularProgressProps> = ({
   completed,
   required,
-  size = 90,
+  size = 70,
   stroke = 6,
 }) => {
   const radius = (size - stroke) / 2;
